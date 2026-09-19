@@ -1,0 +1,45 @@
+<div class="snail-track" aria-hidden="true">
+  <div class="scroll-snail" data-scroll-snail>
+    <svg viewBox="0 0 150 82" role="presentation">
+      <defs>
+        <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffca5f"/><stop offset="1" stop-color="#f05a3f"/></linearGradient>
+        <linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9f45d"/><stop offset="1" stop-color="#62c98b"/></linearGradient>
+        <filter id="soft"><feDropShadow dx="3" dy="4" stdDeviation="2" flood-color="#17213c" flood-opacity=".3"/></filter>
+      </defs>
+      <g filter="url(#soft)" stroke="#17213c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+        <path fill="none" d="M105 42c4-20 10-29 18-35M112 41c13-14 22-18 30-17"/>
+        <circle cx="124" cy="7" r="4" fill="#17213c"/><circle cx="143" cy="24" r="4" fill="#17213c"/>
+        <path fill="url(#body)" d="M15 62c14-15 36-17 55-12 18 5 34-10 51-8 12 1 20 8 24 18 3 8-5 14-16 14H20C8 74 7 68 15 62Z"/>
+        <circle cx="65" cy="38" r="31" fill="url(#shell)"/>
+        <path fill="none" d="M65 20c-15 0-20 19-8 27 12 8 26-3 22-15-3-9-15-11-20-5"/>
+      </g>
+      <path d="M23 77h110" stroke="#17213c" stroke-width="3" stroke-linecap="round" opacity=".25"/>
+    </svg>
+  </div>
+</div>
+
+<script>
+  const snail = document.querySelector<HTMLElement>('[data-scroll-snail]');
+  if (snail) {
+    let previousY = window.scrollY;
+    let direction = 1;
+    let queued = false;
+    const draw = () => {
+      const currentY = window.scrollY;
+      if (Math.abs(currentY - previousY) > 2) direction = currentY > previousY ? 1 : -1;
+      previousY = currentY;
+      const range = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, currentY / range));
+      const travel = Math.max(0, window.innerWidth - snail.offsetWidth - 20);
+      snail.style.setProperty('--snail-x', `${10 + progress * travel}px`);
+      snail.style.setProperty('--snail-direction', String(direction));
+      queued = false;
+    };
+    const requestDraw = () => {
+      if (!queued) { queued = true; requestAnimationFrame(draw); }
+    };
+    addEventListener('scroll', requestDraw, { passive: true });
+    addEventListener('resize', requestDraw, { passive: true });
+    draw();
+  }
+</script>

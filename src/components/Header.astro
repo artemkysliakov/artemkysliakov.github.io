@@ -1,0 +1,27 @@
+---
+const path = Astro.url.pathname;
+const links = [
+  { href: '/about/', label: 'Хто я' }, { href: '/education/', label: 'Уроки' },
+  { href: '/projects/', label: 'Майстерня' }, { href: '/blog/', label: 'Нотатки' },
+  { href: '/resources/', label: 'Матеріали' }, { href: '/contact/', label: 'Написати' }
+];
+const isActive = (href: string) => path === href || path.startsWith(href);
+---
+
+<header class="relative z-40 border-b-2 border-ink bg-paper/95 backdrop-blur-sm">
+  <div class="shell flex min-h-18 items-center justify-between gap-5">
+    <a class="group flex items-center gap-3 font-bold tracking-[-0.025em]" href="/" aria-label="Пан Артем — головна">
+      <span class="grid size-9 -rotate-3 place-items-center rounded-md border-2 border-ink bg-acid font-mono text-sm shadow-[2px_2px_0_#17213c] transition group-hover:rotate-3">АК</span>
+      <span><span class="block leading-none">Пан Артем</span><span class="mt-1 block font-mono text-[.62rem] font-normal text-ink/55">кабінет інформатики_</span></span>
+    </a>
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Головна навігація">
+      {links.map((link) => <a class:list={['rounded-md px-3 py-2 text-sm font-bold transition hover:-rotate-1 hover:bg-acid', isActive(link.href) && 'bg-ink text-paper']} href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>{link.label}</a>)}
+    </nav>
+    <details class="group relative lg:hidden">
+      <summary class="cursor-pointer list-none rounded-md border-2 border-ink bg-acid px-3 py-2 text-sm font-bold shadow-[3px_3px_0_#17213c] [&::-webkit-details-marker]:hidden"><span class="group-open:hidden">Меню +</span><span class="hidden group-open:inline">Закрити ×</span></summary>
+      <nav class="absolute top-14 right-0 grid w-64 rotate-1 rounded-lg border-2 border-ink bg-paper p-2 shadow-lift" aria-label="Мобільна навігація">
+        {links.map((link) => <a class:list={['rounded px-3 py-3 text-base font-bold hover:bg-acid', isActive(link.href) && 'bg-ink text-paper']} href={link.href}>{link.label}</a>)}
+      </nav>
+    </details>
+  </div>
+</header>

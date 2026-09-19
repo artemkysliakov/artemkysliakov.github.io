@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+const items = await getCollection('projects', ({ data }) => !data.draft && data.area !== '360');
+const preferredOrder = ['ravlyk', 'itnauka'];
+items.sort((a, b) => preferredOrder.indexOf(a.id) - preferredOrder.indexOf(b.id));
+---
+<BaseLayout title="Проєкти" description="Освітні ресурси та активні розробки Артема Кислякова.">
+  <header class="shell py-14 lg:py-24"><div class="eyebrow">Майстерня</div><h1 class="page-title mt-5">Інструменти, яких мені бракувало на уроці.</h1><p class="lead mt-7">Я створюю відкриті україномовні ресурси для вчителів та учнів. Тут показую активні проєкти; експерименти з офісним пакетом і браузерними розширеннями додам, коли ними вже можна буде користуватися.</p></header>
+  <section class="shell border-t border-line pb-12 lg:pb-24">{items.map((project, index) => <ProjectCard project={project} index={index + 1} />)}</section>
+</BaseLayout>

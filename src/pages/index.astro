@@ -1,0 +1,74 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import portrait from '../assets/artem-kysliakov.jpg';
+
+const allProjects = await getCollection('projects', ({ data }) => !data.draft);
+const preferredOrder = ['ravlyk', 'itnauka'];
+const projects = preferredOrder.map((id) => allProjects.find((item) => item.id === id)).filter((item) => item !== undefined);
+const publications = [
+  { title: 'РАВЛИК 3.0: яскравіше та доступніше', description: 'Як РАВЛИК перетворюється на навчальний майданчик з уроками, посібником і налаштуваннями доступності.', href: 'https://drukarnia.com.ua/articles/ravlik-3-0-yaskravishe-ta-dostupnishe-86V2x', label: 'РАВЛИК' },
+  { title: 'Формула ідеального запиту до ШІ', description: 'Практична структура запиту для учнів, учителів і всіх, хто хоче отримувати від ШІ осмисленіші відповіді.', href: 'https://drukarnia.com.ua/articles/formula-idealnogo-zapitu-do-shi-9PMp6', label: 'ШІ' },
+  { title: 'Як працює Інтернет: інтерактивний урок', description: 'Пояснення клієнтів, серверів, IP-адрес і DNS через практичний інтерактивний досвід.', href: 'https://drukarnia.com.ua/articles/yak-pracyuye-internet-interaktivnii-urok-XqbCU', label: 'Урок' }
+];
+const person = {
+  '@context': 'https://schema.org', '@type': 'ProfilePage',
+  mainEntity: { '@type': 'Person', '@id': 'https://artemkysliakov.github.io/#artem', name: 'Артем Кисляков', alternateName: 'Пан Артем', jobTitle: 'Вчитель інформатики та розробник освітніх рішень', url: 'https://artemkysliakov.github.io/', knowsAbout: ['інформатика', 'EdTech', 'maker education', 'AI в освіті', '360° video'], sameAs: ['https://drukarnia.com.ua/artem'] }
+};
+---
+
+<BaseLayout description="Пан Артем — вчитель інформатики й розробник українських освітніх рішень.">
+  <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(person)} /></Fragment>
+
+  <section class="shell py-10 lg:py-16">
+    <div class="desktop-window">
+      <div class="window-bar"><span class="window-dots pl-13">profile.exe</span><span class="text-ink/45">artem://home</span></div>
+      <div class="relative grid gap-12 p-6 sm:p-9 lg:grid-cols-[1.15fr_.7fr] lg:items-center lg:p-12">
+    <div class="relative z-10">
+      <div class="mb-6 inline-flex rotate-1 items-center gap-2 rounded-full border-2 border-ink bg-white px-3 py-1.5 font-mono text-xs font-bold shadow-[3px_3px_0_#17213c]"><span class="size-2 rounded-full bg-[#26a269]"></span> урок триває</div>
+      <h1 class="display-title">Привіт, я<br /><span class="scribble">пан Артем.</span></h1>
+      <p class="mt-8 max-w-2xl text-2xl leading-tight font-black sm:text-3xl">Вчитель інформатики, координатор з інновацій і розробник освітніх ресурсів.</p>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink/70">Понад десять років працюю в освіті. Показую дітям, що комп’ютер потрібен не лише для споживання контенту — з ним можна програмувати, досліджувати й створювати власне.</p>
+      <div class="mt-8 flex flex-wrap gap-4"><a class="button button-primary" href="#start">З чого почати ↓</a><a class="button" href="/about/">Познайомитися</a></div>
+    </div>
+    <figure class="tape relative m-0 rotate-2 rounded-lg border-2 border-ink bg-white p-3 shadow-[9px_9px_0_#17213c] transition hover:rotate-0">
+      <Image class="aspect-[4/5] w-full rounded-sm object-cover object-[52%_24%] grayscale-[15%]" src={portrait} alt="Артем Кисляков" widths={[480, 720, 960]} sizes="(max-width: 1024px) 90vw, 35vw" loading="eager" />
+      <figcaption class="flex items-center justify-between gap-4 px-1 pt-3 font-mono text-[.68rem] text-ink/55"><span>Артем / учитель / розробник</span><span class="-rotate-6 text-xl" aria-hidden="true">↳</span></figcaption>
+    </figure>
+    <span class="absolute top-12 right-[35%] hidden rotate-12 font-mono text-sm font-bold text-coral lg:block" aria-hidden="true">не бійтеся<br />натискати ↘</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="start" class="section-band">
+    <div class="shell">
+      <div class="mb-8 flex flex-wrap items-end justify-between gap-4"><div><div class="eyebrow">Оберіть свій маршрут</div><h2 class="section-title mt-3">Що шукаєте?</h2></div><div class="rotate-2 rounded-md bg-coral px-3 py-2 font-mono text-xs font-bold text-white">без реєстрації :)</div></div>
+      <div class="grid gap-5 md:grid-cols-3">
+        <a class="desktop-shortcut group rotate-[-1deg] bg-acid" href="/resources/"><span class="shortcut-icon" aria-hidden="true">✂</span><h3 class="mt-8 text-2xl font-black">Я вчитель / вчителька</h3><p class="mt-3 leading-relaxed text-ink/65">Матеріали, інструменти й ідеї, які можна забрати на урок.</p><span class="mt-auto pt-6 font-bold group-hover:text-coral">Відкрити папку →</span></a>
+        <a class="desktop-shortcut group rotate-[1deg] bg-mint" href="/projects/"><span class="shortcut-icon font-mono font-black" aria-hidden="true">{ }</span><h3 class="mt-8 text-2xl font-black">Мені цікаві проєкти</h3><p class="mt-3 leading-relaxed text-ink/65">РАВЛИК, itnauka.org та рішення, що почалися з реальної потреби.</p><span class="mt-auto pt-6 font-bold group-hover:text-coral">Запустити майстерню →</span></a>
+        <a class="desktop-shortcut group rotate-[-.5deg] bg-[#ffd1c8]" href="https://drukarnia.com.ua/artem" target="_blank" rel="noreferrer"><span class="shortcut-icon" aria-hidden="true">✎</span><h3 class="mt-8 text-2xl font-black">Хочу щось прочитати</h3><p class="mt-3 leading-relaxed text-ink/65">Тексти про навчання, власні розробки, ШІ та освітні експерименти.</p><span class="mt-auto pt-6 font-bold group-hover:text-coral">Відкрити Друкарню ↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="shell grid gap-9 lg:grid-cols-[14rem_1fr]">
+      <div><div class="eyebrow">Що роблю зараз</div><h2 class="mt-3 text-3xl font-black">Дві вкладки відкриті постійно</h2></div>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <article class="note bg-white"><div class="font-mono text-xs font-bold text-coral">01 / classroom</div><h3 class="mt-6 text-2xl font-black">Викладаю інформатику</h3><p class="mt-3 leading-relaxed text-ink/65">Працюю з учнями початкової школи за власною програмою. ШІ наскрізно з’являється в різних темах, а конкретний інструмент завжди залежить від навчальної мети.</p></article>
+        <article class="note bg-white"><div class="font-mono text-xs font-bold text-coral">02 / workshop</div><h3 class="mt-6 text-2xl font-black">Розробляю освітні ресурси</h3><p class="mt-3 leading-relaxed text-ink/65">РАВЛИК, itnauka.org, навчальний офісний пакет і браузерні розширення — інструменти, що виростають із реальних потреб уроку.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="shell"><div class="mb-7 flex items-end justify-between gap-5"><div><div class="eyebrow">Зібрано руками</div><h2 class="section-title mt-3">Вибране з майстерні</h2></div><a class="hidden font-bold underline decoration-2 underline-offset-4 sm:block" href="/projects/">Усі проєкти →</a></div>
+    <div>{projects.map((project, index) => <ProjectCard project={project} index={index + 1} />)}</div></div>
+  </section>
+
+  <section class="section-band">
+    <div class="shell grid gap-8 lg:grid-cols-[14rem_1fr]"><div><div class="eyebrow">З Друкарні</div><h2 class="mt-3 text-3xl font-black">Три тексти для знайомства</h2></div><div class="grid gap-4">{publications.map((post, index) => <a class:list={['group note grid gap-3 transition hover:-translate-y-1 sm:grid-cols-[6rem_1fr_auto]', index % 2 ? 'rotate-[.4deg]' : 'rotate-[-.4deg]']} href={post.href} target="_blank" rel="noreferrer"><span class="font-mono text-xs font-bold text-coral">{post.label}</span><div><h3 class="text-xl font-black transition group-hover:text-coral">{post.title}</h3><p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink/60">{post.description}</p></div><span class="text-xl font-black" aria-hidden="true">↗</span></a>)}</div></div>
+  </section>
+</BaseLayout>

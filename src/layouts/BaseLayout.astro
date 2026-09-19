@@ -1,0 +1,39 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ScrollSnail from '../components/ScrollSnail.astro';
+import '../styles/global.css';
+const { title='Артем Кисляков', description='Вчитель інформатики та розробник українських освітніх рішень.', image='/og-default.svg', type='website' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title === 'Артем Кисляков' ? title : `${title} — Артем Кисляков`;
+---
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#f7f3e8" />
+    <meta name="color-scheme" content="light" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" />
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="alternate" type="application/rss+xml" title="Артем Кисляков — RSS" href="/rss.xml" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-acid focus:px-4 focus:py-2 focus:font-bold" href="#content">До основного вмісту</a>
+    <Header />
+    <main id="content"><slot /></main>
+    <Footer />
+    <ScrollSnail />
+  </body>
+</html>

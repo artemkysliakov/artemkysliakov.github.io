@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const drukarnia = [
+  { title: 'РАВЛИК 3.0: яскравіше та доступніше', description: 'Оновлення навчального середовища, уроки, доступність і нові можливості редактора.', href: 'https://drukarnia.com.ua/articles/ravlik-3-0-yaskravishe-ta-dostupnishe-86V2x', topic: 'Розробка' },
+  { title: 'Навіщо я створив ще одну мову програмування', description: 'П’ять причин створити україномовний місток від блоків до текстового коду.', href: 'https://drukarnia.com.ua/articles/navisho-ya-stvoriv-she-odnu-movu-programuvannya-C95rA', topic: 'РАВЛИК' },
+  { title: 'Як працює Інтернет: інтерактивний урок', description: 'Клієнти, сервери, IP-адреси й DNS через практичний інтерактивний досвід.', href: 'https://drukarnia.com.ua/articles/yak-pracyuye-internet-interaktivnii-urok-XqbCU', topic: 'Урок' },
+  { title: 'Формула ідеального запиту до ШІ', description: 'Практична структура запиту та типові проблеми у взаємодії зі штучним інтелектом.', href: 'https://drukarnia.com.ua/articles/formula-idealnogo-zapitu-do-shi-9PMp6', topic: 'ШІ' }
+];
+---
+<BaseLayout title="Тексти" description="Публікації Артема Кислякова про освіту, освітні ресурси, програмування та ШІ.">
+  <header class="shell py-14 lg:py-24"><div class="eyebrow">Нотатки</div><h1 class="page-title mt-5">Пишу про те, що випробовую сам.</h1><p class="lead mt-7">Найчастіше — про власні розробки, навчання інформатики та створення освітніх ресурсів. Основний архів моїх публікацій поки живе на Друкарні.</p><a class="button button-primary mt-7" href="https://drukarnia.com.ua/artem" target="_blank" rel="noreferrer">Усі тексти на Друкарні ↗</a></header>
+  {posts.length > 0 && <section class="section-band"><div class="shell"><div class="eyebrow">На цьому сайті</div><div class="mt-7">{posts.map((post, index) => <a class="card group grid gap-4 md:grid-cols-[3rem_9rem_1fr_auto]" href={`/blog/${post.id}/`}><span class="font-mono text-sm">{String(index + 1).padStart(2, '0')}</span><time class="text-sm text-ink/45">{post.data.published.toLocaleDateString('uk-UA')}</time><div><h2 class="text-3xl font-black">{post.data.title}</h2><p class="mt-3 text-ink/65">{post.data.description}</p></div><span>↗</span></a>)}</div></div></section>}
+  <section class="section-band"><div class="shell"><div class="eyebrow">З чого почати</div><h2 class="section-title mt-3">Вибрані публікації</h2><div class="mt-9 grid gap-5 sm:grid-cols-2">{drukarnia.map((post, index) => <a class:list={['desktop-shortcut group min-h-56', index % 4 === 0 ? 'bg-acid' : index % 4 === 1 ? 'bg-mint' : index % 4 === 2 ? 'bg-[#ffd1c8]' : 'bg-[#d8ddff]']} href={post.href} target="_blank" rel="noreferrer"><span class="font-mono text-xs font-bold text-coral">{post.topic}</span><h3 class="mt-7 text-2xl font-black">{post.title}</h3><p class="mt-3 leading-relaxed text-ink/65">{post.description}</p><span class="mt-auto pt-5 font-bold">Читати на Друкарні ↗</span></a>)}</div></div></section>
+</BaseLayout>

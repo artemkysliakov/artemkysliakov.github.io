@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Trebuchet MS", "Segoe UI", Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+  --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  --color-paper: #f7f3e8;
+  --color-ink: #17213c;
+  --color-forest: #24594f;
+  --color-mint: #bde8d4;
+  --color-acid: #d9f45d;
+  --color-coral: #f05a3f;
+  --color-line: #aeb3ad;
+  --shadow-lift: 7px 7px 0 #17213c;
+}
+
+@layer base {
+  :root { color-scheme: light; font-synthesis: none; }
+  html { scroll-behavior: smooth; }
+  body { @apply m-0 bg-paper font-sans text-ink antialiased; background-image: radial-gradient(rgb(23 33 60 / .12) 1px, transparent 1px); background-size: 22px 22px; }
+  main { overflow: clip; }
+  ::selection { @apply bg-acid text-ink; }
+  a, button, summary { -webkit-tap-highlight-color: transparent; }
+  :focus-visible { @apply outline-2 outline-offset-4 outline-coral; }
+}
+
+@layer components {
+  .shell { @apply mx-auto w-full max-w-[1180px] px-5 sm:px-8 lg:px-10; }
+  .eyebrow { @apply font-mono text-[.7rem] font-bold tracking-[0.12em] text-ink/60 uppercase; }
+  .eyebrow::before { content: "// "; @apply text-coral; }
+  .display-title { @apply max-w-4xl text-[clamp(3.8rem,9.5vw,8.2rem)] leading-[.82] font-black tracking-[-0.075em]; }
+  .page-title { @apply max-w-5xl text-[clamp(2.8rem,6.5vw,6rem)] leading-[.94] font-black tracking-[-0.055em]; }
+  .section-title { @apply text-[clamp(2.1rem,4.5vw,4rem)] leading-[.95] font-black tracking-[-0.045em]; }
+  .lead { @apply max-w-3xl text-lg leading-[1.65] text-ink/75 sm:text-xl; }
+  .button { @apply inline-flex min-h-11 -rotate-1 items-center justify-center gap-2 rounded-md border-2 border-ink bg-paper px-4 py-2.5 text-sm font-bold shadow-[4px_4px_0_#17213c] transition duration-200 hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0_#17213c]; }
+  .button-primary { @apply bg-acid text-ink; }
+  .button-accent { @apply bg-coral text-white; }
+  .card { @apply relative my-3 rounded-xl border-2 border-ink bg-paper p-5 shadow-[4px_4px_0_#17213c] transition duration-200 sm:p-6; }
+  a.card:hover { @apply -translate-y-1 bg-white shadow-[7px_7px_0_#17213c]; }
+  a.card:hover h2, a.card:hover h3 { @apply text-coral; }
+  .tag { @apply inline-flex -rotate-1 rounded-full border border-ink/30 bg-white px-2.5 py-1 font-mono text-xs text-ink/65; }
+  .prose { @apply mx-auto max-w-3xl rounded-xl border-2 border-ink bg-paper px-5 py-8 text-[1.08rem] leading-[1.82] text-ink/82 shadow-[5px_5px_0_#17213c] sm:px-10; }
+  .prose h2 { @apply mt-14 mb-5 text-4xl leading-tight font-black tracking-[-0.045em] text-ink; }
+  .prose h3 { @apply mt-10 mb-4 text-xl font-bold text-ink; }
+  .prose p, .prose ul, .prose ol { @apply my-5; }
+  .prose ul { @apply list-disc pl-6; }
+  .prose ol { @apply list-decimal pl-6; }
+  .prose a { @apply font-bold text-coral underline decoration-2 underline-offset-4; }
+  .prose blockquote { @apply my-9 -rotate-1 rounded-md border-2 border-ink bg-acid p-6 text-2xl leading-relaxed font-bold shadow-[4px_4px_0_#17213c]; }
+  .note { @apply relative rounded-lg border-2 border-ink bg-white p-5 shadow-[5px_5px_0_#17213c]; }
+  .section-band { @apply border-t-2 border-ink bg-paper/92 py-14 lg:py-20; }
+  .desktop-window { @apply overflow-hidden rounded-xl border-2 border-ink bg-paper shadow-[9px_9px_0_#17213c]; }
+  .window-bar { @apply flex items-center justify-between border-b-2 border-ink bg-mint px-4 py-2 font-mono text-xs font-bold; }
+  .window-dots { @apply flex gap-1.5; }
+  .window-dots::before, .window-dots::after { content: ""; @apply size-3 rounded-full border border-ink; }
+  .window-dots::before { @apply bg-coral; box-shadow: 18px 0 0 #ffca5f, 36px 0 0 #d9f45d; }
+  .folder-card { @apply mt-8 bg-white; }
+  .folder-card::before { content: ""; @apply absolute -top-[1.15rem] left-5 h-5 w-28 rounded-t-lg border-2 border-b-0 border-ink bg-inherit; }
+  .desktop-shortcut { @apply relative flex min-h-64 flex-col rounded-xl border-2 border-ink p-5 shadow-[6px_6px_0_#17213c] transition duration-200 hover:-translate-y-2 hover:shadow-[10px_10px_0_#17213c]; }
+  .shortcut-icon { @apply grid size-16 rotate-[-4deg] place-items-center rounded-xl border-2 border-ink bg-white text-3xl shadow-[4px_4px_0_#17213c] transition group-hover:rotate-3; }
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+.cursor-blink { animation: blink 1s steps(1) infinite; }
+.scribble { text-decoration: underline; text-decoration-color: #f05a3f; text-decoration-thickness: .13em; text-underline-offset: .12em; text-decoration-skip-ink: none; }
+.tape::before { content: ""; position: absolute; width: 7rem; height: 1.6rem; left: 50%; top: -.7rem; transform: translateX(-50%) rotate(-3deg); background: rgb(217 244 93 / .82); border-left: 1px dashed rgb(23 33 60 / .3); border-right: 1px dashed rgb(23 33 60 / .3); z-index: 2; }
+.snail-track { position: fixed; inset: auto 0 0; z-index: 60; height: 2px; border-top: 1px solid rgb(23 33 60 / .18); pointer-events: none; }
+.scroll-snail { --snail-x: 10px; --snail-direction: 1; position: absolute; width: 108px; left: 0; bottom: -2px; transform: translateX(var(--snail-x)) scaleX(var(--snail-direction)); transform-origin: center bottom; transition: transform .14s ease-out; will-change: transform; }
+.scroll-snail svg { width: 100%; height: auto; }
+
+@media (max-width: 640px) { .scroll-snail { width: 78px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  .scroll-snail { display: none; }
+}
