@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "edit": "node scripts/edit.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
@@ -19,6 +20,13 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@astrojs/react": "^6.0.6",
+    "@keystatic/astro": "^6.0.0",
+    "@keystatic/core": "^0.6.9",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "typescript": "^6.0.3"
   }
 }

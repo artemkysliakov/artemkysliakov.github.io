@@ -16,11 +16,24 @@ npm run check
 npm run build
 ```
 
+## Редагування вмісту
+
+```bash
+npm run edit
+```
+
+Відкриває сайт разом із редактором Keystatic на http://localhost:4321/keystatic — усі тексти там у звичайних полях. Редактор локальний і в зібраний сайт не потрапляє. Докладніше — у `CONTENT_GUIDE.md`.
+
+**Теку `dist/` не редагують** — це результат збірки, вона в `.gitignore` і затирається кожним `npm run build`.
+
 ## Структура
 
 - `src/site.config.ts` — пошта, соцмережі, посилання на проєкти, токен аналітики. Єдине місце, де це змінюють.
-- `src/data/publications.ts` — публікації на Друкарні; звідси їх беруть і головна, і розділ «Нотатки».
-- `src/content/` — дописи (`posts/`) та розробки (`projects/`) у Markdown. Схеми — у `src/content.config.ts`.
+- `src/content/pages/*.json` — тексти всіх сторінок (редагуються в Keystatic).
+- `src/data/publications.ts` — типізований доступ до `src/content/pages/publications.json`.
+- `src/content/` — дописи (`posts/`) та розробки (`projects/`) у MDX. Схеми — у `src/content.config.ts`.
+- `src/lib/inline.ts` — проста розмітка посилань у текстах сторінок.
+- `keystatic.config.ts` — опис полів редактора.
 - `src/styles/global.css` — уся типографіка й теми, зокрема оформлення статей (`.prose`).
 - `scripts/build-og-image.mjs` — генератор `public/og-default.png` для прев’ю в соцмережах.
 

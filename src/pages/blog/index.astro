@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import notesBitmoji from '../../assets/bitmoji-notes.png';
 import { publications } from '../../data/publications';
+import page from '../../content/pages/blog.json';
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.published.valueOf() - a.data.published.valueOf()
@@ -12,18 +13,18 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
 <BaseLayout title="Нотатки" description="Публікації Артема Кислякова про освіту, освітні ресурси, програмування та ШІ.">
   <header class="shell grid gap-8 py-14 lg:grid-cols-[1fr_16rem] lg:items-center lg:py-24">
     <div>
-      <div class="eyebrow">Нотатки</div>
-      <h1 class="page-title mt-5">Пишу про те, що випробовую сам.</h1>
-      <p class="lead mt-7">Здебільшого про власні розробки й про те, як узагалі роблять освітні ресурси. Основний архів поки живе на Друкарні — сюди переношу поступово.</p>
-      <a class="button button-primary mt-7" href="https://drukarnia.com.ua/artem" target="_blank" rel="noreferrer">Усі тексти на Друкарні ↗</a>
+      <div class="eyebrow">{page.eyebrow}</div>
+      <h1 class="page-title mt-5">{page.title}</h1>
+      <p class="lead mt-7">{page.lead}</p>
+      <a class="button button-primary mt-7" href={page.button.href} target="_blank" rel="noreferrer">{page.button.label}</a>
     </div>
-    <Image class="mx-auto w-44 rotate-2 drop-shadow-[6px_8px_0_rgba(23,33,60,.15)] lg:w-64" src={notesBitmoji} alt="Бітмоджі пана Артема біля поштової скриньки" width={420} loading="lazy" />
+    <Image class="mx-auto w-44 rotate-2 drop-shadow-[6px_8px_0_rgba(23,33,60,.15)] lg:w-64" src={notesBitmoji} alt={page.bitmojiAlt} width={420} loading="lazy" />
   </header>
 
   {posts.length > 0 && (
     <section class="section-band">
       <div class="shell">
-        <div class="eyebrow">На цьому сайті</div>
+        <div class="eyebrow">{page.ownPostsEyebrow}</div>
         <div class="mt-7">
           {posts.map((post, index) => (
             <a class="card group grid gap-4 md:grid-cols-[3rem_9rem_1fr_auto] md:items-center" href={`/blog/${post.id}/`}>
@@ -43,8 +44,8 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
 
   <section class="section-band">
     <div class="shell">
-      <div class="eyebrow">З чого почати</div>
-      <h2 class="section-title mt-3">Вибрані публікації</h2>
+      <div class="eyebrow">{page.picks.eyebrow}</div>
+      <h2 class="section-title mt-3">{page.picks.heading}</h2>
       <div class="mt-9 grid gap-5 sm:grid-cols-2">
         {publications.map((post, index) => (
           <a
@@ -56,7 +57,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
             <span class="font-mono text-xs font-bold text-coral">{post.topic}</span>
             <h3 class="mt-7 text-2xl font-black">{post.title}</h3>
             <p class="mt-3 leading-relaxed text-ink/70">{post.description}</p>
-            <span class="mt-auto pt-5 font-bold">Читати на Друкарні ↗</span>
+            <span class="mt-auto pt-5 font-bold">{page.picks.linkLabel}</span>
           </a>
         ))}
       </div>

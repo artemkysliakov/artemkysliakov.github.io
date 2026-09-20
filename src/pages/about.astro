@@ -4,53 +4,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import portrait from '../assets/artem-kysliakov.jpg';
 import aboutBitmoji from '../assets/bitmoji-about.png';
 import { site } from '../site.config';
+import { inlineMarkdown } from '../lib/inline';
+import page from '../content/pages/about.json';
 
-const facts = [
-  { label: 'у школі', value: 'Понад 10 років' },
-  { label: 'зараз викладаю', value: 'Початкова школа' },
-  { label: 'посада', value: 'Учитель інформатики, координатор з інновацій' },
-  { label: 'школа', value: 'Ukrainian Global School' }
-];
+const noteColors = ['bg-acid', 'bg-mint', 'tone-coral bg-[#ffd1c8]', 'tone-lilac bg-[#d8ddff]'];
+/** У текстах сторінок {email} підставляється з site.config. */
+const fill = (text: string) => inlineMarkdown(text.replaceAll('{email}', site.email));
 ---
 <BaseLayout title="Про мене" description="Артем Кисляков — учитель інформатики, координатор з інновацій і розробник освітніх ресурсів.">
   <header class="shell grid gap-10 py-14 lg:grid-cols-[1fr_.72fr] lg:items-end lg:py-24">
     <div>
-      <div class="eyebrow">Про мене</div>
-      <h1 class="page-title mt-5">Технології цікавіші, коли з ними можна створити щось нове.</h1>
-      <p class="lead mt-7">Вітаю! Мене звати пан Артем. Я вчитель інформатики, координатор з інновацій в Ukrainian Global School і розробник освітніх ресурсів.</p>
+      <div class="eyebrow">{page.eyebrow}</div>
+      <h1 class="page-title mt-5">{page.title}</h1>
+      <p class="lead mt-7">{page.lead}</p>
     </div>
     <figure class="tape relative rotate-1 rounded-lg border-2 border-ink bg-white p-3 shadow-[7px_7px_0_#17213c]">
-      <Image class="aspect-[4/3] w-full object-cover object-[50%_28%]" src={portrait} alt="Портрет Артема Кислякова" widths={[600, 900, 1200]} sizes="(max-width: 1024px) 90vw, 38vw" loading="eager" fetchpriority="high" />
+      <Image class="aspect-[4/3] w-full object-cover object-[50%_28%]" src={portrait} alt={page.portraitAlt} widths={[600, 900, 1200]} sizes="(max-width: 1024px) 90vw, 38vw" loading="eager" fetchpriority="high" />
     </figure>
   </header>
 
   <section class="section-band">
     <div class="shell grid gap-8 lg:grid-cols-[14rem_1fr]">
-      <h2 class="text-3xl font-black">Коротко</h2>
+      <h2 class="text-3xl font-black">{page.intro.heading}</h2>
       <div class="max-w-3xl space-y-5 text-lg leading-relaxed text-ink/80">
-        <p>Я працюю в освіті понад десять років. Маю досвід роботи з учнями різних вікових категорій, проте зараз сфокусований на викладанні інформатики в початковій школі.</p>
-        <p>Я люблю технології, але ще більше люблю ділитися цим захопленням з учнями. Для багатьох дітей комп’ютер — це передусім екран, на якому вони щось дивляться або грають в ігри. Мені цікаво показати другий бік: з ним можна програмувати, досліджувати, вигадувати й робити власні цікаві речі.</p>
-        <p>Якщо коротко: найкращі мої уроки — ті, після яких дитина йде додому не тільки з новими знаннями, а й з ідеями щось зробити самостійно.</p>
+        {page.intro.paragraphs.map((text) => <p set:html={fill(text)} />)}
       </div>
     </div>
   </section>
 
   <section class="section-band">
     <div class="shell grid gap-8 lg:grid-cols-[14rem_1fr]">
-      <h2 class="text-3xl font-black">Ще одна посада</h2>
+      <h2 class="text-3xl font-black">{page.coordinator.heading}</h2>
       <div class="max-w-3xl space-y-5 text-lg leading-relaxed text-ink/80">
-        <p>Крім уроків, я координатор з інновацій. Простими словами — шукаю нові технології для навчання, перевіряю, чи вони справді працюють у класі і полегшують життя вчителів, та допомагаю впровадити їх в роботу.</p>
-        <p>А якщо потрібного інструмента не існує, створюю його самостійно. Наприклад, журнал відвідувань вихованців нашого дитячого садочку та методичний портал для вчителів.</p>
+        {page.coordinator.paragraphs.map((text) => <p set:html={fill(text)} />)}
       </div>
     </div>
   </section>
 
   <section class="section-band">
     <div class="shell grid gap-8 lg:grid-cols-[14rem_1fr]">
-      <h2 class="text-3xl font-black">Сухі факти</h2>
+      <h2 class="text-3xl font-black">{page.facts.heading}</h2>
       <dl class="grid gap-4 sm:grid-cols-2">
-        {facts.map((fact, index) => (
-          <div class:list={['note', ['bg-acid', 'bg-mint', 'tone-coral bg-[#ffd1c8]', 'tone-lilac bg-[#d8ddff]'][index % 4]]}>
+        {page.facts.items.map((fact, index) => (
+          <div class:list={['note', noteColors[index % noteColors.length]]}>
             <dt class="font-mono text-xs font-bold text-coral">{fact.label}</dt>
             <dd class="mt-3 text-xl leading-tight font-black">{fact.value}</dd>
           </div>
@@ -61,13 +57,11 @@ const facts = [
 
   <section class="section-band">
     <div class="shell grid gap-8 lg:grid-cols-[14rem_1fr_auto] lg:items-center">
-      <h2 class="text-3xl font-black">Що розробляю</h2>
-      <div class="max-w-3xl text-lg leading-relaxed text-ink/80">
-        <p>Мої основні публічні проєкти — україномовне середовище текстового програмування <a class="font-bold text-coral underline decoration-2 underline-offset-4" href="https://ravlyk.org/" target="_blank" rel="noreferrer">РАВЛИК</a> та добірка інтерактивних ресурсів <a class="font-bold text-coral underline decoration-2 underline-offset-4" href="https://itnauka.org/" target="_blank" rel="noreferrer">itnauka.org</a>.</p>
-        <p class="mt-5">Зараз також експериментую з навчальним офісним пакетом і розширеннями для браузера. Показуватиму їх поступово — коли з’явиться версія, яку вже можна дати іншим спробувати.</p>
-        <p class="mt-5">Про все це я пишу <a class="font-bold text-coral underline decoration-2 underline-offset-4" href="/blog/">у нотатках</a>, а написати мені можна на <a class="font-bold text-coral underline decoration-2 underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      <h2 class="text-3xl font-black">{page.work.heading}</h2>
+      <div class="max-w-3xl space-y-5 text-lg leading-relaxed text-ink/80">
+        {page.work.paragraphs.map((text) => <p set:html={fill(text)} />)}
       </div>
-      <Image class="mx-auto w-40 drop-shadow-[5px_7px_0_rgba(23,33,60,.14)] lg:w-48" src={aboutBitmoji} alt="Бітмоджі пана Артема з книжкою" width={320} loading="lazy" />
+      <Image class="mx-auto w-40 drop-shadow-[5px_7px_0_rgba(23,33,60,.14)] lg:w-48" src={aboutBitmoji} alt={page.work.bitmojiAlt} width={320} loading="lazy" />
     </div>
   </section>
 </BaseLayout>
