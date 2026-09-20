@@ -236,6 +236,45 @@ export default config({
           },
           { label: 'Блок «Сухі факти»' }
         ),
+        certificates: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Надзаголовок' }),
+            heading: fields.text({ label: 'Заголовок блоку' }),
+            note: fields.text({
+              label: 'Підпис під заголовком',
+              description: 'Посилання пишуть так: [напис](https://адреса).',
+              multiline: true
+            }),
+            verifyLabel: fields.text({ label: 'Напис на посиланні перевірки' }),
+            fileLabel: fields.text({ label: 'Напис на посиланні до файлу' }),
+            items: fields.array(
+              fields.object({
+                title: fields.text({ label: 'Назва сертифіката' }),
+                issuer: fields.text({ label: 'Хто видав' }),
+                date: fields.text({ label: 'Коли', description: 'Наприклад: Квітень 2024' }),
+                detail: fields.text({ label: 'Короткий опис', description: 'Необов’язково.' }),
+                image: fields.image({
+                  label: 'Зображення сертифіката',
+                  directory: 'src/assets/certificates',
+                  publicPath: '/src/assets/certificates/'
+                }),
+                imageAlt: fields.text({ label: 'Опис зображення для незрячих' }),
+                url: fields.text({
+                  label: 'Посилання на перевірку',
+                  description: 'Наприклад сторінка бейджа на Credly. Порожнє — кнопки не буде.'
+                }),
+                file: fields.file({
+                  label: 'Файл сертифіката (PDF)',
+                  description: 'Необов’язково. Відвідувач відкриє його в новій вкладці.',
+                  directory: 'public/certificates',
+                  publicPath: '/certificates/'
+                })
+              }),
+              { label: 'Сертифікати', itemLabel: (props) => props.fields.title.value || 'Без назви' }
+            )
+          },
+          { label: 'Блок «Сертифікати»' }
+        ),
         work: fields.object(
           {
             heading: fields.text({ label: 'Заголовок блоку' }),

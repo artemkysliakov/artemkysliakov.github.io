@@ -39,6 +39,95 @@
       }
     ]
   },
+  "certificates": {
+    "eyebrow": "Навчаюся сам",
+    "heading": "Сертифікати",
+    "note": "Бейджі Cisco та Google перевіряються на [Credly](https://www.credly.com/users/artem-kysliakov/badges), сертифікати Cambridge можна відкрити повністю.",
+    "verifyLabel": "Перевірити →",
+    "items": [
+      {
+        "title": "Introduction Cambridge Lower Secondary Computing (0860)",
+        "issuer": "Cambridge Assessment International Education",
+        "date": "Квітень 2024",
+        "detail": "25 навчальних годин",
+        "image": "/src/assets/certificates/cambridge-lower-secondary-computing.jpg",
+        "imageAlt": "Сертифікат Cambridge про завершення курсу Lower Secondary Computing",
+        "url": "",
+        "file": "/certificates/cambridge-lower-secondary-computing.pdf"
+      },
+      {
+        "title": "Introduction Cambridge Lower Secondary Digital Literacy (0082)",
+        "issuer": "Cambridge Assessment International Education",
+        "date": "Квітень 2024",
+        "detail": "25 навчальних годин",
+        "image": "/src/assets/certificates/cambridge-lower-secondary-digital-literacy.jpg",
+        "imageAlt": "Сертифікат Cambridge про завершення курсу Lower Secondary Digital Literacy",
+        "url": "",
+        "file": "/certificates/cambridge-lower-secondary-digital-literacy.pdf"
+      },
+      {
+        "title": "Introduction Cambridge Primary Digital Literacy (0072)",
+        "issuer": "Cambridge Assessment International Education",
+        "date": "Квітень 2024",
+        "detail": "25 навчальних годин",
+        "image": "/src/assets/certificates/cambridge-primary-digital-literacy.jpg",
+        "imageAlt": "Сертифікат Cambridge про завершення курсу Primary Digital Literacy",
+        "url": "",
+        "file": "/certificates/cambridge-primary-digital-literacy.pdf"
+      },
+      {
+        "title": "Introduction Cambridge Primary Computing (0059)",
+        "issuer": "Cambridge Assessment International Education",
+        "date": "Листопад 2023",
+        "detail": "25 навчальних годин",
+        "image": "/src/assets/certificates/cambridge-primary-computing.jpg",
+        "imageAlt": "Сертифікат Cambridge про завершення курсу Primary Computing",
+        "url": "",
+        "file": "/certificates/cambridge-primary-computing.pdf"
+      },
+      {
+        "title": "Google Data Analytics Professional Certificate",
+        "issuer": "Google · Coursera",
+        "date": "Серпень 2023",
+        "detail": "Аналіз даних: SQL, R, візуалізація",
+        "image": "/src/assets/certificates/google-data-analytics.png",
+        "imageAlt": "Бейдж Google Data Analytics Certificate",
+        "url": "https://www.credly.com/badges/2dcb1925-7f94-4072-96c0-b3bc32deb13a",
+        "file": ""
+      },
+      {
+        "title": "Google Cybersecurity Professional Certificate",
+        "issuer": "Google · Coursera",
+        "date": "Липень 2023",
+        "detail": "Кібербезпека: загрози, мережі, реагування",
+        "image": "/src/assets/certificates/google-cybersecurity.png",
+        "imageAlt": "Бейдж Google Cybersecurity Certificate",
+        "url": "https://www.credly.com/badges/d10700dd-e5d0-47a4-8348-07d8dca02c1f",
+        "file": ""
+      },
+      {
+        "title": "Cybersecurity Essentials",
+        "issuer": "Cisco Networking Academy",
+        "date": "Липень 2022",
+        "detail": "Захист даних, криптографія, контроль доступу",
+        "image": "/src/assets/certificates/cisco-cybersecurity-essentials.png",
+        "imageAlt": "Бейдж Cisco Networking Academy Cybersecurity Essentials",
+        "url": "https://www.credly.com/badges/0b591cbd-6f8a-4959-95c6-c2e9a5693303",
+        "file": ""
+      },
+      {
+        "title": "Introduction to Cybersecurity",
+        "issuer": "Cisco Networking Academy",
+        "date": "Червень 2022",
+        "detail": "Основи безпеки в мережі",
+        "image": "/src/assets/certificates/cisco-introduction-to-cybersecurity.png",
+        "imageAlt": "Бейдж Cisco Networking Academy Introduction to Cybersecurity",
+        "url": "https://www.credly.com/badges/50c222a7-caca-41f7-b11b-9d1159936aa7",
+        "file": ""
+      }
+    ],
+    "fileLabel": "Переглянути PDF →"
+  },
   "work": {
     "heading": "Що розробляю",
     "paragraphs": [
