@@ -1,4 +1,4 @@
-# artemkysliakov.github.io
+# artem.itnauka.org
 
 Персональний сайт Артема Кислякова на Astro 7 і Tailwind CSS 4.
 
@@ -41,6 +41,8 @@ npm run edit
 
 ## Публікація
 
-Репозиторій має спеціальне ім’я `artemkysliakov.github.io`, тому `base` у `astro.config.mjs` не потрібен. Після першого push відкрийте **Settings → Pages → Source → GitHub Actions**.
+Сайт публікується за адресою [artem.itnauka.org](https://artem.itnauka.org) через GitHub Pages. Репозиторій має спеціальне ім’я `artemkysliakov.github.io`, тому `base` у `astro.config.mjs` не потрібен.
+
+У Cloudflare піддомен `artem` налаштований як DNS-only `CNAME` на `artemkysliakov.github.io`, а в **Settings → Pages** цього репозиторію вказано custom domain `artem.itnauka.org`. Після випуску сертифіката для домену в GitHub Pages потрібно залишити ввімкненим **Enforce HTTPS**.
 
 Workflow (`.github/workflows/deploy.yml`) запускає `npm ci`, перевірку типів, збірку й публікує каталог `dist`.

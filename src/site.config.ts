@@ -4,7 +4,7 @@
  */
 
 export const site = {
-  url: 'https://artemkysliakov.github.io',
+  url: 'https://artem.itnauka.org',
   name: 'Артем Кисляков',
   shortName: 'Пан Артем',
   role: 'Вчитель інформатики та розробник українських освітніх рішень',

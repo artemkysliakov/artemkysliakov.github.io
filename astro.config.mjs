@@ -13,7 +13,7 @@ import tailwindcss from '@tailwindcss/vite';
 const isEditing = process.env.KEYSTATIC === 'on';
 
 export default defineConfig({
-  site: 'https://artemkysliakov.github.io',
+  site: 'https://artem.itnauka.org',
   integrations: [
     mdx(),
     sitemap({ lastmod: new Date(), changefreq: 'monthly' }),

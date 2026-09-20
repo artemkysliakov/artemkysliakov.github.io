@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://artemkysliakov.github.io/sitemap-index.xml
+Sitemap: https://artem.itnauka.org/sitemap-index.xml
