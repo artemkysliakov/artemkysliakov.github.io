@@ -39,6 +39,22 @@ function checkHtml(file) {
     inlineScripts += 1;
   }
 
+  const analyticsScript = scripts.find((script) =>
+    script[1].includes('src="https://static.cloudflareinsights.com/beacon.min.js"')
+  );
+  if (!analyticsScript || !/\btype="module"/.test(analyticsScript[1])) {
+    fail(`Cloudflare Web Analytics module is missing in ${file}`);
+  }
+  if (!/data-cf-beacon="\{&quot;token&quot;:&quot;[a-f0-9]{32}&quot;\}"/.test(analyticsScript[1])) {
+    fail(`Cloudflare Web Analytics token is missing or malformed in ${file}`);
+  }
+  if (!cspMeta[1].includes('https://static.cloudflareinsights.com/beacon.min.js')) {
+    fail(`CSP does not allow the Cloudflare analytics script in ${file}`);
+  }
+  if (!cspMeta[1].includes("connect-src 'self' https://cloudflareinsights.com")) {
+    fail(`CSP does not allow the Cloudflare analytics endpoint in ${file}`);
+  }
+
   if (/href="(?:javascript|data|vbscript):/i.test(html)) {
     fail(`Unsafe link scheme in ${file}`);
   }

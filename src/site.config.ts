@@ -30,8 +30,7 @@ export const support = {
 };
 
 /**
- * Cloudflare Web Analytics.
- * Токен беруть у Cloudflare → Web Analytics → Add a site → JS snippet.
- * Поки рядок порожній, скрипт не додається до сторінок.
+ * Cloudflare Web Analytics для DNS-only hostname.
+ * Site token є публічним і прив'язаний до домену; beacon дозволений у CSP.
  */
-export const cloudflareBeaconToken = '';
+export const cloudflareBeaconToken = '802d992896b744d48e56e7eff950ef3f';

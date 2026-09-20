@@ -73,7 +73,7 @@ const hasPosts = (await getCollection('posts', ({ data }) => !data.draft)).lengt
     {cloudflareBeaconToken && (
       <script
         is:inline
-        defer
+        type="module"
         src="https://static.cloudflareinsights.com/beacon.min.js"
         data-cf-beacon={JSON.stringify({ token: cloudflareBeaconToken })}
       />

@@ -16,10 +16,16 @@ export default defineConfig({
   site: 'https://artem.itnauka.org',
   security: {
     csp: {
+      scriptDirective: {
+        resources: [
+          "'self'",
+          'https://static.cloudflareinsights.com/beacon.min.js'
+        ]
+      },
       directives: [
         "default-src 'self'",
         "base-uri 'self'",
-        "connect-src 'self'",
+        "connect-src 'self' https://cloudflareinsights.com",
         "font-src 'self'",
         "form-action 'self'",
         "frame-src 'none'",

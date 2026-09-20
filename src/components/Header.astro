@@ -48,7 +48,9 @@ const isActive = (href: string) => path === href || path.startsWith(href);
 </header>
 
 <script>
-  const setTheme = (theme) => {
+  type Theme = 'light' | 'dark';
+
+  const setTheme = (theme: Theme) => {
     document.documentElement.dataset.theme = theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#151a2b' : '#f7f3e8');
     document.querySelectorAll('[data-theme-toggle]').forEach((button) => button.setAttribute('aria-label', theme === 'dark' ? 'Увімкнути світлу тему' : 'Увімкнути темну тему'));
@@ -60,13 +62,13 @@ const isActive = (href: string) => path === href || path.startsWith(href);
       setTheme(theme);
     });
   });
-  setTheme(document.documentElement.dataset.theme || 'light');
+  setTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
 
   // Мобільне меню закривається по Escape і по кліку поза ним.
-  const menu = document.querySelector('[data-mobile-menu]');
+  const menu = document.querySelector<HTMLDetailsElement>('[data-mobile-menu]');
   if (menu) {
     document.addEventListener('click', (event) => {
-      if (menu.open && !menu.contains(event.target)) menu.open = false;
+      if (menu.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
     });
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && menu.open) {
