@@ -38,7 +38,7 @@ import page from '../content/pages/contacts.json';
             class:list={['desktop-shortcut group min-h-0 justify-between', ['bg-acid', 'bg-mint', 'tone-coral bg-[#ffd1c8]', 'tone-lilac bg-[#d8ddff]'][index % 4]]}
             href={social.href}
             target="_blank"
-            rel="noreferrer me"
+            rel="noopener noreferrer me"
           >
             <span class="text-xl font-black">{social.label}</span>
             <span class="mt-4 font-mono text-xs text-ink/60">{new URL(social.href).pathname.replace(/^\/|\/$/g, '')}</span>
@@ -52,7 +52,7 @@ import page from '../content/pages/contacts.json';
     <div class="shell grid gap-8 lg:grid-cols-[14rem_1fr]">
       <div><div class="eyebrow">{page.projects.eyebrow}</div><h2 class="mt-3 text-3xl font-black">{page.projects.heading}</h2></div>
       <div class="flex flex-wrap gap-4">
-        {externalLinks.map((link) => <a class="button" href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>)}
+        {externalLinks.map((link) => <a class="button" href={link.href} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}
       </div>
     </div>
   </section>

@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { serializeJsonLd } from '../lib/security';
 import ProjectCard from '../components/ProjectCard.astro';
 import portrait from '../assets/artem-kysliakov.jpg';
 import learningBitmoji from '../assets/bitmoji-learning.png';
@@ -38,7 +39,7 @@ const person = {
 ---
 
 <BaseLayout description={page.description}>
-  <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(person)} /></Fragment>
+  <Fragment slot="head"><script type="application/ld+json" set:html={serializeJsonLd(person)} /></Fragment>
 
   <section class="shell py-10 lg:py-16">
     <div class="desktop-window">
@@ -116,7 +117,7 @@ const person = {
       <div><div class="eyebrow">{page.notes.eyebrow}</div><h2 class="mt-3 text-3xl font-black">{page.notes.heading}</h2></div>
       <div class="grid gap-4">
         {featuredPublications.map((post, index) => (
-          <a class:list={['group note grid gap-3 transition hover:-translate-y-1 sm:grid-cols-[6rem_1fr_auto]', index % 2 ? 'rotate-[.4deg]' : 'rotate-[-.4deg]']} href={post.href} target="_blank" rel="noreferrer">
+          <a class:list={['group note grid gap-3 transition hover:-translate-y-1 sm:grid-cols-[6rem_1fr_auto]', index % 2 ? 'rotate-[.4deg]' : 'rotate-[-.4deg]']} href={post.href} target="_blank" rel="noopener noreferrer">
             <span class="font-mono text-xs font-bold text-coral">{post.topic}</span>
             <div>
               <h3 class="text-xl font-black transition group-hover:text-coral">{post.title}</h3>

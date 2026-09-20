@@ -16,17 +16,25 @@ const escapeHtml = (value: string) =>
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;');
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+
+/** Дозволяємо тільки схеми, які справді потрібні в текстах сайту. */
+const isSafeHref = (href: string) => {
+  if (/^(?:https?:|mailto:|tel:)/i.test(href)) return true;
+  return /^(?:\.{0,2}\/|#|\?)/.test(href);
+};
 
 /** Зовнішні посилання відкриваємо в новій вкладці, внутрішні — ні. */
-const isExternal = (href: string) => /^https?:\/\//i.test(href);
+const isExternal = (href: string) => /^(?:https?:)?\/\//i.test(href);
 
 export function inlineMarkdown(source: string): string {
   let html = escapeHtml(source);
 
   html = html.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_match, text: string, href: string) => {
-    // Після екранування лапок href безпечний для атрибута.
-    const attrs = isExternal(href) ? ' target="_blank" rel="noreferrer"' : '';
+    // Небезпечну схему (javascript:, data:, vbscript: тощо) показуємо як текст.
+    if (!isSafeHref(href)) return text;
+    const attrs = isExternal(href) ? ' target="_blank" rel="noopener noreferrer"' : '';
     return `<a class="font-bold text-coral underline decoration-2 underline-offset-4" href="${href}"${attrs}>${text}</a>`;
   });
 

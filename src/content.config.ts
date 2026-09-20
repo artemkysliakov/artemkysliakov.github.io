@@ -17,6 +17,11 @@ const common = ({ image }: SchemaContext) => ({
   tags: z.array(z.string()).default([])
 });
 
+const webUrl = z.url().refine((value) => {
+  const protocol = new URL(value).protocol;
+  return protocol === 'https:' || protocol === 'http:';
+}, 'Посилання має використовувати http або https');
+
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
   schema: (context) => z.object({ ...common(context), kind: z.enum(['article', 'note']).default('article') })
@@ -32,7 +37,7 @@ const projects = defineCollection({
       year: z.string().optional(),
       status: z.enum(['active', 'archive', 'case-study']).default('case-study'),
       featured: z.boolean().default(false),
-      externalUrl: z.url().optional(),
+      externalUrl: webUrl.optional(),
       client: z.string().optional()
     })
 });

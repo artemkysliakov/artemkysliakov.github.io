@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { serializeJsonLd } from '../../lib/security';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { site } from '../../site.config';
 
@@ -38,7 +39,7 @@ const jsonLd = [
 ];
 ---
 <BaseLayout title={item.data.title} description={item.data.description}>
-  <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(jsonLd)} /></Fragment>
+  <Fragment slot="head"><script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} /></Fragment>
 
   <div class="shell pt-8"><Breadcrumbs items={[{ label: 'Головна', href: '/' }, { label: 'Розробки', href: '/developments/' }, { label: item.data.title }]} /></div>
 
@@ -56,7 +57,7 @@ const jsonLd = [
         <div class="flex flex-wrap gap-2">{item.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div>
       </dl>
     </div>
-    {item.data.externalUrl && <div class="mt-8"><a class="button button-primary" href={item.data.externalUrl} target="_blank" rel="noreferrer">Відкрити розробку ↗</a></div>}
+    {item.data.externalUrl && <div class="mt-8"><a class="button button-primary" href={item.data.externalUrl} target="_blank" rel="noopener noreferrer">Відкрити розробку ↗</a></div>}
   </header>
 
   {item.data.cover && (

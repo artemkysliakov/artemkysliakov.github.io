@@ -14,6 +14,24 @@ const isEditing = process.env.KEYSTATIC === 'on';
 
 export default defineConfig({
   site: 'https://artem.itnauka.org',
+  security: {
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "base-uri 'self'",
+        "connect-src 'self'",
+        "font-src 'self'",
+        "form-action 'self'",
+        "frame-src 'none'",
+        "img-src 'self' data:",
+        "manifest-src 'self'",
+        "media-src 'self'",
+        "object-src 'none'",
+        "worker-src 'none'",
+        'upgrade-insecure-requests'
+      ]
+    }
+  },
   integrations: [
     mdx(),
     sitemap({ lastmod: new Date(), changefreq: 'monthly' }),
@@ -24,6 +42,8 @@ export default defineConfig({
   },
   output: 'static',
   markdown: {
-    shikiConfig: { theme: 'github-dark' }
+    // Prism uses CSS classes instead of Shiki's inline styles, so CSP can
+    // protect published posts that contain fenced code blocks.
+    syntaxHighlight: 'prism'
   }
 });

@@ -70,8 +70,16 @@
   .prose li::marker { @apply text-coral; }
   .prose li + li { @apply mt-2; }
   .prose :not(pre) > code { @apply rounded border border-ink/25 bg-acid/30 px-1.5 py-0.5 font-mono text-[.88em] text-ink; }
-  .prose pre { @apply my-7 overflow-x-auto rounded-lg border-2 border-ink p-5 text-[.92rem] leading-relaxed shadow-[4px_4px_0_#17213c]; }
+  .prose pre { @apply my-7 overflow-x-auto rounded-lg border-2 border-ink bg-[#17213c] p-5 text-[.92rem] leading-relaxed text-[#f7f3e8] shadow-[4px_4px_0_#17213c]; }
   .prose pre code { @apply bg-transparent p-0 font-mono; }
+  .prose .token.comment, .prose .token.prolog, .prose .token.doctype, .prose .token.cdata { color: #93a1b8; }
+  .prose .token.punctuation { color: #d8ddff; }
+  .prose .token.property, .prose .token.tag, .prose .token.boolean, .prose .token.number, .prose .token.constant, .prose .token.symbol { color: #ff8069; }
+  .prose .token.selector, .prose .token.attr-name, .prose .token.string, .prose .token.char, .prose .token.builtin, .prose .token.inserted { color: #d9f45d; }
+  .prose .token.operator, .prose .token.entity, .prose .token.url, .prose .token.variable { color: #ffe0a3; }
+  .prose .token.atrule, .prose .token.attr-value, .prose .token.function, .prose .token.class-name { color: #9ee6c1; }
+  .prose .token.keyword { color: #c8ceff; }
+  .prose .token.regex, .prose .token.important { color: #ffca5f; }
   .prose figure { @apply my-9; }
   .prose img { @apply mx-auto block rounded-lg border-2 border-ink shadow-[5px_5px_0_#17213c]; }
   .prose figcaption { @apply mt-3 text-center font-mono text-xs text-ink/60; }

@@ -47,7 +47,7 @@ const isActive = (href: string) => path === href || path.startsWith(href);
   </div>
 </header>
 
-<script is:inline>
+<script>
   const setTheme = (theme) => {
     document.documentElement.dataset.theme = theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#151a2b' : '#f7f3e8');
