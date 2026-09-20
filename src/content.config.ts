@@ -22,7 +22,7 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
   schema: z.object({
     ...common,
-    area: z.enum(['education','edtech','360']),
+    area: z.enum(['education','edtech']),
     role: z.string(),
     year: z.string().optional(),
     status: z.enum(['active','archive','case-study']).default('case-study'),

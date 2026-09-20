@@ -5,9 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://artemkysliakov.github.io',
-  integrations: [mdx(), sitemap({
-    filter: (page) => page !== 'https://artemkysliakov.github.io/360/'
-  })],
+  integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()]
   },
