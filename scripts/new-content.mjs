@@ -15,7 +15,7 @@ const map = { а:'a', б:'b', в:'v', г:'h', ґ:'g', д:'d', е:'e', є:'ye', �
 const slug = title.toLowerCase().split('').map((char) => map[char] ?? char).join('').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const collections = { post: 'posts', development: 'projects' };
 const folder = join(process.cwd(), 'src', 'content', collections[type]);
-const file = join(folder, `${slug || 'new-content'}.md`);
+const file = join(folder, `${slug || 'new-content'}.mdx`);
 const date = new Date().toISOString().slice(0, 10);
 
 const extra = {
