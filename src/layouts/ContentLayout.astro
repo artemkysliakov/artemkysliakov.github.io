@@ -1,26 +1,72 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site } from '../site.config';
+
 interface Props {
   title: string;
   description: string;
   published: Date;
   updated?: Date;
   tags?: string[];
+  cover?: ImageMetadata;
+  coverAlt?: string;
 }
-const { title, description, published, updated, tags = [] } = Astro.props;
+
+const { title, description, published, updated, tags = [], cover, coverAlt } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Головна', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Нотатки', item: `${site.url}/blog/` },
+      { '@type': 'ListItem', position: 3, name: title, item: canonical }
+    ]
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description,
+    datePublished: published.toISOString(),
+    ...(updated ? { dateModified: updated.toISOString() } : {}),
+    inLanguage: 'uk',
+    mainEntityOfPage: canonical,
+    author: { '@type': 'Person', '@id': `${site.url}/#artem`, name: site.name },
+    ...(tags.length ? { keywords: tags.join(', ') } : {})
+  }
+];
 ---
 <BaseLayout title={title} description={description} type="article">
+  <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(jsonLd)} /></Fragment>
+
   <div class="shell pt-8"><Breadcrumbs items={[{ label: 'Головна', href: '/' }, { label: 'Нотатки', href: '/blog/' }, { label: title }]} /></div>
+
   <header class="shell py-14 lg:py-24">
     <span class="eyebrow">Публікація</span>
     <h1 class="page-title mt-5">{title}</h1>
     <p class="lead mt-7">{description}</p>
     <div class="mt-7 flex flex-wrap gap-2">
-      <span class="tag">{published?.toLocaleDateString('uk-UA')}</span>
-      {updated && <span class="tag">Оновлено {updated.toLocaleDateString('uk-UA')}</span>}
+      <time class="tag" datetime={published.toISOString()}>{published.toLocaleDateString('uk-UA')}</time>
+      {updated && <time class="tag" datetime={updated.toISOString()}>Оновлено {updated.toLocaleDateString('uk-UA')}</time>}
       {tags.map((tag) => <span class="tag">{tag}</span>)}
     </div>
   </header>
+
+  {cover && (
+    <figure class="shell mb-14 lg:mb-20">
+      <Image class="w-full rounded-xl border-2 border-ink shadow-[7px_7px_0_#17213c]" src={cover} alt={coverAlt ?? title} widths={[640, 960, 1280]} sizes="(max-width: 1180px) 92vw, 1100px" loading="eager" />
+    </figure>
+  )}
+
   <article class="prose"><slot /></article>
+
+  <nav class="shell mt-12 flex flex-wrap gap-4" aria-label="Далі">
+    <a class="button" href="/blog/">← Усі нотатки</a>
+    <a class="button" href="/contacts/">Написати мені</a>
+  </nav>
 </BaseLayout>

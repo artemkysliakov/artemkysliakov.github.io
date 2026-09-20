@@ -3,10 +3,68 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import lessonsBitmoji from '../assets/bitmoji-lessons.png';
 ---
-<BaseLayout title="Освіта" description="Як Артем Кисляков викладає інформатику в початковій школі та розробляє навчальні матеріали.">
-  <header class="shell grid gap-8 py-14 lg:grid-cols-[1fr_16rem] lg:items-center lg:py-24"><div><div class="eyebrow">Освіта</div><h1 class="page-title mt-5">Хороший урок залишає нові знання — і нові ідеї.</h1><p class="lead mt-7">Я викладаю інформатику учням початкової школи за власною програмою, складеною на основі Cambridge International Primary Computing and Digital Literacy, ІТ-студій та українських типових освітніх програм.</p></div><Image class="mx-auto w-44 -rotate-2 drop-shadow-[6px_8px_0_rgba(23,33,60,.15)] lg:w-64" src={lessonsBitmoji} alt="Бітмоджі пана Артема з указкою" width={420} loading="eager" /></header>
-  <section class="section-band"><div class="shell grid gap-10 lg:grid-cols-[14rem_1fr]"><div><div class="eyebrow">Мій орієнтир</div><h2 class="mt-3 text-3xl font-black">Що таке хороший урок</h2></div><div class="note bg-white text-xl leading-relaxed"><p>Навчальні цілі досягнуті, а діти йдуть на перерву не лише з новими знаннями, а й з ідеями, що з ними зробити.</p></div></div></section>
-  <section class="section-band"><div class="shell grid gap-10 lg:grid-cols-[14rem_1fr]"><div><div class="eyebrow">На практиці</div><h2 class="mt-3 text-3xl font-black">Кмітливість теж результат</h2></div><div class="max-w-3xl space-y-5 text-lg leading-relaxed text-ink/75"><p>Якось учень мав надрукувати адреси сайтів у моєму тренажері, але просто копіював їх із завдання. Я оцінив його кмітливість — а потім виправив сервіс, щоб вправа знову перевіряла потрібну навичку.</p><p>Інший учень замість переписування тексту з дошки сфотографував його камерою ноутбука, розпізнав онлайн-сервісом і виконав завдання швидше за всіх. Такі моменти мені подобаються: дитина не просто пам’ятає назву технології, а бачить у ній інструмент для розв’язання задачі.</p></div></div></section>
-  <section class="section-band"><div class="shell grid gap-10 lg:grid-cols-[14rem_1fr]"><div><div class="eyebrow">Принципи</div><h2 class="mt-3 text-3xl font-black">Створити. Перевірити. Поліпшити.</h2></div><div class="grid gap-5 sm:grid-cols-2"><article class="note bg-acid"><h3 class="text-xl font-black">Комп’ютер як інструмент автора</h3><p class="mt-3 leading-relaxed">Діти мають не лише споживати готовий контент, а створювати код, зображення, моделі й власні цифрові продукти.</p></article><article class="note bg-mint"><h3 class="text-xl font-black">Помилка — не поразка</h3><p class="mt-3 leading-relaxed">Експериментувати, помилятися, робити висновки й рухатися далі — нормальна частина навчання.</p></article><article class="note tone-coral bg-[#ffd1c8]"><h3 class="text-xl font-black">ШІ в різних темах</h3><p class="mt-3 leading-relaxed">Ми вчимося формулювати запити, перевіряти відповіді й розуміти обмеження штучного інтелекту.</p></article><article class="note tone-lilac bg-[#d8ddff]"><h3 class="text-xl font-black">Спочатку мета, потім інструмент</h3><p class="mt-3 leading-relaxed">Програмування, maker/STEM, робототехніка чи цифрова грамотність з’являються там, де справді допомагають навчанню.</p></article></div></div></section>
-  <section class="section-band"><div class="shell grid gap-8 lg:grid-cols-[14rem_1fr]"><h2 class="text-3xl font-black">Власні інструменти</h2><div><p class="max-w-3xl text-3xl leading-snug font-black">Якщо потрібного ресурсу немає, я пробую зробити його сам.</p><p class="mt-5 max-w-2xl leading-relaxed text-ink/70">Так з’явилися РАВЛИК та itnauka.org — як відповіді на конкретні ситуації в навчанні.</p><a class="button button-primary mt-7" href="/developments/">Переглянути розробки →</a></div></div></section>
+<BaseLayout title="Уроки" description="Як Артем Кисляков викладає інформатику в початковій школі та розробляє навчальні матеріали.">
+  <header class="shell grid gap-8 py-14 lg:grid-cols-[1fr_16rem] lg:items-center lg:py-24">
+    <div>
+      <div class="eyebrow">Уроки</div>
+      <h1 class="page-title mt-5">Урок вдався, якщо дітям є що робити далі.</h1>
+      <p class="lead mt-7">Я викладаю інформатику учням початкової школи за власною програмою. Вона зібрана з Cambridge International Primary Computing and Digital Literacy, матеріалів ІТ-студій та українських типових освітніх програм.</p>
+    </div>
+    <Image class="mx-auto w-44 -rotate-2 drop-shadow-[6px_8px_0_rgba(23,33,60,.15)] lg:w-64" src={lessonsBitmoji} alt="Бітмоджі пана Артема з указкою" width={420} loading="lazy" />
+  </header>
+
+  <section class="section-band">
+    <div class="shell grid gap-10 lg:grid-cols-[14rem_1fr]">
+      <div><div class="eyebrow">Мій орієнтир</div><h2 class="mt-3 text-3xl font-black">Що таке хороший урок</h2></div>
+      <div class="note bg-white text-xl leading-relaxed">
+        <p>Навчальні цілі досягнуті, а діти йдуть на перерву з новими знаннями й ідеями, що з ними зробити.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="shell grid gap-10 lg:grid-cols-[14rem_1fr]">
+      <div><div class="eyebrow">На практиці</div><h2 class="mt-3 text-3xl font-black">Дві історії з класу</h2></div>
+      <div class="max-w-3xl space-y-5 text-lg leading-relaxed text-ink/80">
+        <p>Колись учень «хакнув» мій тренажер. Там треба було набирати адреси сайтів із завдання, а він просто копіював їх і вставляв у поле. Я оцінив кмітливість — а потім полагодив сервіс, бо вправа мала перевіряти зовсім інше.</p>
+        <p>Інший учень не став переписувати текст із дошки. Сфотографував її камерою ноутбука, прогнав через онлайн-розпізнавання і здав завдання першим.</p>
+        <p>Ось за такі моменти я й люблю цю роботу.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="shell grid gap-10 lg:grid-cols-[14rem_1fr]">
+      <div><div class="eyebrow">Принципи</div><h2 class="mt-3 text-3xl font-black">На чому все тримається</h2></div>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <article class="note bg-acid">
+          <h3 class="text-xl font-black">Комп’ютер як інструмент автора</h3>
+          <p class="mt-3 leading-relaxed">На уроках діти пишуть код, малюють, збирають моделі й роблять власні цифрові штуки. Споживати готове вони чудово вміють і без мене.</p>
+        </article>
+        <article class="note bg-mint">
+          <h3 class="text-xl font-black">Помилятися — нормально</h3>
+          <p class="mt-3 leading-relaxed">Я кажу це вголос на кожному уроці. Важливо розібратися, чому не вийшло, і спробувати ще раз.</p>
+        </article>
+        <article class="note tone-coral bg-[#ffd1c8]">
+          <h3 class="text-xl font-black">ШІ наскрізно, а не окремою темою</h3>
+          <p class="mt-3 leading-relaxed">Штучний інтелект я вплів в усі теми програми. Ми формулюємо запити, перевіряємо, що він відповів, і з’ясовуємо, де він помиляється.</p>
+        </article>
+        <article class="note tone-lilac bg-[#d8ddff]">
+          <h3 class="text-xl font-black">Спочатку мета, потім інструмент</h3>
+          <p class="mt-3 leading-relaxed">Програмування, робототехніка, maker-завдання чи цифрова грамотність з’являються там, де вони справді допомагають навчанню.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="shell grid gap-8 lg:grid-cols-[14rem_1fr]">
+      <h2 class="text-3xl font-black">Власні інструменти</h2>
+      <div>
+        <p class="max-w-3xl text-3xl leading-snug font-black">Якщо потрібного ресурсу немає, я пробую зробити його сам.</p>
+        <p class="mt-5 max-w-2xl leading-relaxed text-ink/75">Так з’явився РАВЛИК — бо після Scratch дітям нікуди було йти, а україномовного текстового середовища я не знайшов. І так з’явилася itnauka.org — бо для половини тем потрібен був маленький тренажер, якого ніхто не зробив.</p>
+        <a class="button button-primary mt-7" href="/developments/">Переглянути розробки →</a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,11 +1,32 @@
 ---
+import { getCollection } from 'astro:content';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ScrollSnail from '../components/ScrollSnail.astro';
+import { site, cloudflareBeaconToken } from '../site.config';
 import '../styles/global.css';
-const { title='Артем Кисляков', description='Вчитель інформатики та розробник українських освітніх рішень.', image='/og-default.svg', type='website' } = Astro.props;
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: string;
+}
+
+const {
+  title = site.name,
+  description = site.role + '.',
+  image = '/og-default.png',
+  imageAlt = `${site.name} — ${site.role}`,
+  type = 'website'
+} = Astro.props;
+
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const fullTitle = title === 'Артем Кисляков' ? title : `${title} — Артем Кисляков`;
+const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
+
+// RSS оголошуємо лише тоді, коли у фіді справді є що читати.
+const hasPosts = (await getCollection('posts', ({ data }) => !data.draft)).length > 0;
 ---
 <!doctype html>
 <html lang="uk">
@@ -17,7 +38,8 @@ const fullTitle = title === 'Артем Кисляков' ? title : `${title} �
     <meta name="color-scheme" content="light dark" />
     <script is:inline>
       (() => {
-        const saved = localStorage.getItem('theme');
+        let saved = null;
+        try { saved = localStorage.getItem('theme'); } catch {}
         const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         document.documentElement.dataset.theme = theme;
         document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#151a2b' : '#f7f3e8');
@@ -28,14 +50,27 @@ const fullTitle = title === 'Артем Кисляков' ? title : `${title} �
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" />
     <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
     <meta property="og:locale" content="uk_UA" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="alternate" type="application/rss+xml" title="Артем Кисляков — RSS" href="/rss.xml" />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    {hasPosts && <link rel="alternate" type="application/rss+xml" title={`${site.name} — RSS`} href="/rss.xml" />}
     <slot name="head" />
+    {cloudflareBeaconToken && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: cloudflareBeaconToken })}
+      />
+    )}
   </head>
   <body>
     <a class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-acid focus:px-4 focus:py-2 focus:font-bold" href="#content">До основного вмісту</a>

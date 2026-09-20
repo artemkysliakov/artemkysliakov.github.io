@@ -7,7 +7,8 @@ const links = [
   { href: '/about/', label: 'Хто я' },
   { href: '/education/', label: 'Уроки' },
   { href: '/blog/', label: 'Нотатки' },
-  { href: '/developments/', label: 'Розробки' }
+  { href: '/developments/', label: 'Розробки' },
+  { href: '/contacts/', label: 'Контакти' }
 ];
 const isActive = (href: string) => path === href || path.startsWith(href);
 ---
@@ -18,7 +19,7 @@ const isActive = (href: string) => path === href || path.startsWith(href);
       <span class="logo-bitmoji grid size-12 shrink-0 -rotate-2 place-items-center overflow-hidden rounded-xl border-2 border-ink bg-mint transition group-hover:rotate-2">
         <Image class="size-[115%] translate-y-1 object-contain" src={logo} alt="" width={96} height={96} loading="eager" />
       </span>
-      <span class="min-w-0"><span class="block truncate leading-none">Пан Артем</span><span class="mt-1 hidden font-mono text-[.62rem] font-normal text-ink/55 sm:block">кабінет інформатики_</span></span>
+      <span class="min-w-0"><span class="block truncate leading-none">Пан Артем</span><span class="mt-1 hidden font-mono text-[.62rem] font-normal text-ink/60 sm:block">кабінет інформатики_</span></span>
     </a>
 
     <div class="hidden items-center gap-2 lg:flex">
@@ -36,10 +37,10 @@ const isActive = (href: string) => path === href || path.startsWith(href);
         <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path></svg>
         <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.1A8.5 8.5 0 0 1 9.9 3.5 8.5 8.5 0 1 0 20.5 14.1Z"></path></svg>
       </button>
-      <details class="group relative">
+      <details class="group relative" data-mobile-menu>
         <summary class="menu-toggle"><span class="group-open:hidden">Меню +</span><span class="hidden group-open:inline">Закрити ×</span></summary>
         <nav class="mobile-menu" aria-label="Мобільна навігація">
-          {links.map((link, index) => <a class:list={['nav-button', `nav-button-${index + 1}`, isActive(link.href) && 'is-active']} href={link.href}>{link.label}</a>)}
+          {links.map((link, index) => <a class:list={['nav-button', `nav-button-${index + 1}`, isActive(link.href) && 'is-active']} href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>{link.label}</a>)}
         </nav>
       </details>
     </div>
@@ -55,9 +56,23 @@ const isActive = (href: string) => path === href || path.startsWith(href);
   document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
     button.addEventListener('click', () => {
       const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('theme', theme);
+      try { localStorage.setItem('theme', theme); } catch {}
       setTheme(theme);
     });
   });
   setTheme(document.documentElement.dataset.theme || 'light');
+
+  // Мобільне меню закривається по Escape і по кліку поза ним.
+  const menu = document.querySelector('[data-mobile-menu]');
+  if (menu) {
+    document.addEventListener('click', (event) => {
+      if (menu.open && !menu.contains(event.target)) menu.open = false;
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        menu.querySelector('summary')?.focus();
+      }
+    });
+  }
 </script>

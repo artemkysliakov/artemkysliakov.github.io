@@ -45,7 +45,7 @@
 @layer components {
   .shell { @apply mx-auto w-full max-w-[1180px] px-5 sm:px-8 lg:px-10; }
   .eyebrow { @apply font-mono text-[.7rem] font-bold tracking-[0.12em] text-ink/60 uppercase; }
-  .eyebrow::before { content: "// "; @apply text-coral; }
+  .eyebrow::before { content: "// " / ""; @apply text-coral; }
   .display-title { @apply max-w-4xl text-[clamp(3.25rem,7vw,6.5rem)] leading-[.84] font-black tracking-[-0.065em]; }
   .page-title { @apply max-w-5xl text-[clamp(2.8rem,6.5vw,6rem)] leading-[.94] font-black tracking-[-0.055em]; }
   .section-title { @apply text-[clamp(2.1rem,4.5vw,4rem)] leading-[.95] font-black tracking-[-0.045em]; }
@@ -59,12 +59,27 @@
   .tag { @apply inline-flex -rotate-1 rounded-full border border-ink/30 bg-white px-2.5 py-1 font-mono text-xs text-ink/65; }
   .prose { @apply mx-auto max-w-3xl rounded-xl border-2 border-ink bg-paper px-5 py-8 text-[1.08rem] leading-[1.82] text-ink/82 shadow-[5px_5px_0_#17213c] sm:px-10; }
   .prose h2 { @apply mt-14 mb-5 text-4xl leading-tight font-black tracking-[-0.045em] text-ink; }
-  .prose h3 { @apply mt-10 mb-4 text-xl font-bold text-ink; }
+  .prose h3 { @apply mt-10 mb-4 text-2xl leading-tight font-black tracking-[-0.02em] text-ink; }
   .prose p, .prose ul, .prose ol { @apply my-5; }
   .prose ul { @apply list-disc pl-6; }
   .prose ol { @apply list-decimal pl-6; }
   .prose a { @apply font-bold text-coral underline decoration-2 underline-offset-4; }
   .prose blockquote { @apply my-9 -rotate-1 rounded-md border-2 border-ink bg-acid p-6 text-2xl leading-relaxed font-bold shadow-[4px_4px_0_#17213c]; }
+  .prose h4 { @apply mt-8 mb-3 text-lg font-black tracking-[-0.01em] text-ink; }
+  .prose strong { @apply font-black text-ink; }
+  .prose li::marker { @apply text-coral; }
+  .prose li + li { @apply mt-2; }
+  .prose :not(pre) > code { @apply rounded border border-ink/25 bg-acid/30 px-1.5 py-0.5 font-mono text-[.88em] text-ink; }
+  .prose pre { @apply my-7 overflow-x-auto rounded-lg border-2 border-ink p-5 text-[.92rem] leading-relaxed shadow-[4px_4px_0_#17213c]; }
+  .prose pre code { @apply bg-transparent p-0 font-mono; }
+  .prose figure { @apply my-9; }
+  .prose img { @apply mx-auto block rounded-lg border-2 border-ink shadow-[5px_5px_0_#17213c]; }
+  .prose figcaption { @apply mt-3 text-center font-mono text-xs text-ink/60; }
+  .prose hr { @apply my-12 h-0 border-0 border-t-2 border-dashed border-ink/30; }
+  .prose table { @apply my-7 block max-w-full overflow-x-auto rounded-lg border-2 border-ink text-[.95rem] shadow-[4px_4px_0_#17213c]; width: max-content; border-collapse: collapse; }
+  .prose th, .prose td { @apply border-b border-ink/15 px-4 py-2.5 text-left; }
+  .prose th { @apply bg-mint font-black text-ink; }
+  .prose tbody tr:last-child td { @apply border-b-0; }
   .note { @apply relative rounded-lg border-2 border-ink bg-white p-5 shadow-[5px_5px_0_#17213c]; }
   .section-band { @apply border-t-2 border-ink bg-paper/92 py-14 lg:py-20; }
   .desktop-window { @apply overflow-hidden rounded-xl border-2 border-ink bg-paper shadow-[9px_9px_0_#17213c]; }
@@ -85,6 +100,7 @@
   .nav-button-2 { @apply bg-acid text-[#17213c]; }
   .nav-button-3 { background: #ffd1c8; color: #17213c; }
   .nav-button-4 { background: #d8ddff; color: #17213c; }
+  .nav-button-5 { background: #ffe0a3; color: #17213c; }
   .nav-button.is-active { @apply bg-ink text-paper; transform: translateY(2px); box-shadow: 1px 1px 0 var(--shadow-color); }
   .theme-toggle { @apply grid size-11 place-items-center rounded-lg border-2 border-ink bg-paper shadow-[3px_3px_0_#17213c] transition hover:-translate-y-0.5; }
   .theme-icon { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -102,7 +118,7 @@
   .site-footer { background: #101527; color: #f7f3e8; border-color: #f7f3e8; }
   .support-panel { @apply rounded-2xl border-2 border-white/75 bg-white/5 p-5 shadow-[7px_7px_0_#050713] sm:p-7; }
   .footer-kicker { @apply font-mono text-[.68rem] font-bold tracking-[.13em] text-[#d9f45d] uppercase; }
-  .footer-kicker::before { content: "// "; color: #ff8069; }
+  .footer-kicker::before { content: "// " / ""; color: #ff8069; }
   .support-button { @apply inline-flex min-h-11 items-center justify-center rounded-lg border-2 border-white bg-[#d9f45d] px-4 py-2.5 text-sm font-black text-[#17213c] shadow-[4px_4px_0_#050713] transition hover:-translate-y-1; }
   .qr-link { @apply mx-auto grid w-fit place-items-center rounded-xl border-2 border-white bg-white p-2 shadow-[5px_5px_0_#050713] transition hover:-rotate-2 hover:-translate-y-1; }
   .qr-link img { width: 9rem; height: auto; }
@@ -145,7 +161,15 @@
 [data-theme="dark"] .nav-button-2 { background: #657523; color: #f5f1e6; }
 [data-theme="dark"] .nav-button-3 { background: #683d43; color: #f5f1e6; }
 [data-theme="dark"] .nav-button-4 { background: #3d466f; color: #f5f1e6; }
+[data-theme="dark"] .nav-button-5 { background: #6b5526; color: #f5f1e6; }
 [data-theme="dark"] .nav-button.is-active { background: #f5f1e6; color: #151a2b; }
+[data-theme="dark"] .prose pre,
+[data-theme="dark"] .prose img,
+[data-theme="dark"] .prose table { box-shadow: 4px 4px 0 var(--shadow-color); }
+[data-theme="dark"] .prose :not(pre) > code { background-color: rgb(217 244 93 / .14); border-color: rgb(245 241 230 / .22); }
+[data-theme="dark"] .prose table { background-color: var(--surface-raised); }
+[data-theme="dark"] .prose blockquote { background: #4e5c20; color: #f5f1e6; }
+[data-theme="dark"] .prose hr { border-color: rgb(245 241 230 / .28); }
 [data-theme="dark"] .note.bg-acid,
 [data-theme="dark"] .desktop-shortcut.bg-acid,
 [data-theme="dark"] .card.bg-acid { background: #4e5c20; color: #f5f1e6; }

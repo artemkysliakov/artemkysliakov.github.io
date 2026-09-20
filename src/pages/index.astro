@@ -5,17 +5,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import portrait from '../assets/artem-kysliakov.jpg';
 import learningBitmoji from '../assets/bitmoji-learning.png';
+import { publications } from '../data/publications';
+import { site, socials, externalLinks } from '../site.config';
 
 const allProjects = await getCollection('projects', ({ data }) => !data.draft);
 const projects = ['ravlyk', 'itnauka'].map((id) => allProjects.find((item) => item.id === id)).filter((item) => item !== undefined);
-const publications = [
-  { title: 'РАВЛИК 3.0: яскравіше та доступніше', description: 'Як РАВЛИК перетворюється на навчальний майданчик з уроками, посібником і налаштуваннями доступності.', href: 'https://drukarnia.com.ua/articles/ravlik-3-0-yaskravishe-ta-dostupnishe-86V2x', label: 'РАВЛИК' },
-  { title: 'Формула ідеального запиту до ШІ', description: 'Практична структура запиту для учнів, учителів і всіх, хто хоче отримувати від ШІ осмисленіші відповіді.', href: 'https://drukarnia.com.ua/articles/formula-idealnogo-zapitu-do-shi-9PMp6', label: 'ШІ' },
-  { title: 'Як працює Інтернет: інтерактивний урок', description: 'Пояснення клієнтів, серверів, IP-адрес і DNS через практичний інтерактивний досвід.', href: 'https://drukarnia.com.ua/articles/yak-pracyuye-internet-interaktivnii-urok-XqbCU', label: 'Урок' }
-];
+const featuredPublications = publications.slice(0, 3);
+
 const person = {
-  '@context': 'https://schema.org', '@type': 'ProfilePage',
-  mainEntity: { '@type': 'Person', '@id': 'https://artemkysliakov.github.io/#artem', name: 'Артем Кисляков', alternateName: 'Пан Артем', jobTitle: 'Вчитель інформатики та розробник освітніх рішень', url: 'https://artemkysliakov.github.io/', knowsAbout: ['інформатика', 'EdTech', 'maker education', 'AI в освіті'], sameAs: ['https://drukarnia.com.ua/artem'] }
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    '@id': `${site.url}/#artem`,
+    name: site.name,
+    alternateName: site.shortName,
+    jobTitle: site.role,
+    email: `mailto:${site.email}`,
+    url: `${site.url}/`,
+    knowsAbout: ['інформатика', 'EdTech', 'maker education', 'AI в освіті'],
+    sameAs: [...socials.map((item) => item.href), ...externalLinks.map((item) => item.href)]
+  }
 };
 ---
 
@@ -26,19 +36,19 @@ const person = {
     <div class="desktop-window">
       <div class="window-bar">
         <span class="flex min-w-0 items-center gap-3"><span class="window-controls" aria-hidden="true"><i class="window-control"></i><i class="window-control"></i><i class="window-control"></i></span><span class="truncate">profile.exe</span></span>
-        <span class="hidden text-ink/45 sm:block">artem://home</span>
+        <span class="hidden text-ink/60 sm:block">artem://home</span>
       </div>
       <div class="grid gap-10 p-6 sm:p-9 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,.7fr)] lg:items-center lg:p-12">
         <div class="min-w-0">
           <div class="mb-6 inline-flex rotate-1 items-center gap-2 rounded-full border-2 border-ink bg-white px-3 py-1.5 font-mono text-xs font-bold shadow-[3px_3px_0_#17213c]"><span class="size-2 rounded-full bg-[#26a269]"></span> урок триває</div>
           <h1 class="display-title">Привіт, я<br /><span class="scribble">пан Артем.</span></h1>
           <p class="mt-8 max-w-2xl text-2xl leading-tight font-black sm:text-3xl">Викладаю інформатику й роблю власні навчальні сервіси.</p>
-          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink/70">Мені важливо, щоб діти не просто користувалися комп’ютером, а розуміли його й створювали щось своє.</p>
+          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink/75">Мені важливо, щоб діти не просто користувалися комп’ютером, а розуміли його й створювали щось своє.</p>
           <div class="mt-8 flex flex-wrap gap-4"><a class="button button-primary" href="#start">З чого почати ↓</a><a class="button" href="/about/">Познайомитися</a></div>
         </div>
         <figure class="tape relative m-0 min-w-0 rotate-2 rounded-lg border-2 border-ink bg-white p-3 shadow-[9px_9px_0_#17213c] transition hover:rotate-0">
-          <Image class="aspect-[4/5] w-full rounded-sm object-cover object-[52%_24%] grayscale-[15%]" src={portrait} alt="Артем Кисляков" widths={[480, 720, 960]} sizes="(max-width: 1024px) 90vw, 35vw" loading="eager" />
-          <figcaption class="flex items-center justify-between gap-4 px-1 pt-3 font-mono text-[.68rem] text-ink/55"><span>Артем / учитель / розробник</span><span class="-rotate-6 text-xl" aria-hidden="true">↳</span></figcaption>
+          <Image class="aspect-[4/5] w-full rounded-sm object-cover object-[52%_24%] grayscale-[15%]" src={portrait} alt="Артем Кисляков" widths={[480, 720, 960]} sizes="(max-width: 1024px) 90vw, 35vw" loading="eager" fetchpriority="high" />
+          <figcaption class="flex items-center justify-between gap-4 px-1 pt-3 font-mono text-[.68rem] text-ink/60"><span>Артем / учитель / розробник</span><span class="-rotate-6 text-xl" aria-hidden="true">↳</span></figcaption>
         </figure>
       </div>
     </div>
@@ -50,12 +60,12 @@ const person = {
         <div class="eyebrow">З чого почати</div>
         <h2 class="section-title mt-3">Оберіть папку</h2>
         <div class="mt-8 grid gap-5 md:grid-cols-3">
-          <a class="desktop-shortcut folder-shortcut group rotate-[-1deg] bg-acid" href="/education/"><span class="shortcut-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path></svg></span><h3 class="mt-8 text-2xl font-black">Уроки</h3><p class="mt-3 leading-relaxed text-ink/65">Як я будую програму й що вважаю справді хорошим уроком.</p><span class="mt-auto pt-6 font-bold group-hover:text-coral">Відкрити →</span></a>
-          <a class="desktop-shortcut folder-shortcut group rotate-[1deg] bg-mint" href="/developments/"><span class="shortcut-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"></path></svg></span><h3 class="mt-8 text-2xl font-black">Розробки</h3><p class="mt-3 leading-relaxed text-ink/65">РАВЛИК, itnauka.org та інші інструменти, що почалися з потреб уроку.</p><span class="mt-auto pt-6 font-bold group-hover:text-coral">Переглянути →</span></a>
-          <a class="desktop-shortcut folder-shortcut tone-coral group rotate-[-.5deg] bg-[#ffd1c8]" href="/blog/"><span class="shortcut-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"></path></svg></span><h3 class="mt-8 text-2xl font-black">Нотатки</h3><p class="mt-3 leading-relaxed text-ink/65">Тексти про інформатику, навчання, власні розробки та ШІ.</p><span class="mt-auto pt-6 font-bold group-hover:text-coral">Читати →</span></a>
+          <a class="desktop-shortcut folder-shortcut group rotate-[-1deg] bg-acid" href="/education/"><span class="shortcut-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path></svg></span><h3 class="mt-8 text-2xl font-black">Уроки</h3><p class="mt-3 leading-relaxed text-ink/70">Як влаштована моя програма і дві історії з класу, які пояснюють решту.</p><span class="mt-auto pt-6 font-bold group-hover:text-coral">Відкрити →</span></a>
+          <a class="desktop-shortcut folder-shortcut group rotate-[1deg] bg-mint" href="/developments/"><span class="shortcut-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"></path></svg></span><h3 class="mt-8 text-2xl font-black">Розробки</h3><p class="mt-3 leading-relaxed text-ink/70">РАВЛИК, itnauka.org та інше, що я зробив, бо потрібного не знайшлося.</p><span class="mt-auto pt-6 font-bold group-hover:text-coral">Переглянути →</span></a>
+          <a class="desktop-shortcut folder-shortcut tone-coral group rotate-[-.5deg] bg-[#ffd1c8]" href="/blog/"><span class="shortcut-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"></path></svg></span><h3 class="mt-8 text-2xl font-black">Нотатки</h3><p class="mt-3 leading-relaxed text-ink/70">Що я думаю про власні розробки, ШІ в школі та інші робочі речі.</p><span class="mt-auto pt-6 font-bold group-hover:text-coral">Читати →</span></a>
         </div>
       </div>
-      <Image class="mx-auto hidden w-full max-w-52 -rotate-2 drop-shadow-[6px_8px_0_rgba(23,33,60,.18)] lg:block" src={learningBitmoji} alt="Бітмоджі пана Артема з навчальним приладдям" width={420} />
+      <Image class="mx-auto hidden w-full max-w-52 -rotate-2 drop-shadow-[6px_8px_0_rgba(23,33,60,.18)] lg:block" src={learningBitmoji} alt="Бітмоджі пана Артема з навчальним приладдям" width={420} loading="lazy" />
     </div>
   </section>
 
@@ -63,18 +73,34 @@ const person = {
     <div class="shell grid gap-9 lg:grid-cols-[14rem_1fr]">
       <div><div class="eyebrow">Зараз</div><h2 class="mt-3 text-3xl font-black">Викладаю і розробляю</h2></div>
       <div class="grid gap-5 sm:grid-cols-2">
-        <article class="note bg-white"><div class="font-mono text-xs font-bold text-coral">01 / клас</div><h3 class="mt-6 text-2xl font-black">Викладаю інформатику</h3><p class="mt-3 leading-relaxed text-ink/65">Працюю з учнями початкової школи за власною програмою. Інструмент обираю під конкретну навчальну мету, а не навпаки.</p></article>
-        <article class="note bg-white"><div class="font-mono text-xs font-bold text-coral">02 / розробка</div><h3 class="mt-6 text-2xl font-black">Створюю навчальні сервіси</h3><p class="mt-3 leading-relaxed text-ink/65">РАВЛИК, itnauka.org, навчальний офісний пакет і браузерні розширення виросли із задач, які траплялися на моїх уроках.</p></article>
+        <article class="note bg-white"><div class="font-mono text-xs font-bold text-coral">01 / клас</div><h3 class="mt-6 text-2xl font-black">Викладаю інформатику</h3><p class="mt-3 leading-relaxed text-ink/70">Працюю з учнями початкової школи за власною програмою. Спершу вирішую, чого маю навчити, і аж тоді добираю інструмент.</p></article>
+        <article class="note bg-white"><div class="font-mono text-xs font-bold text-coral">02 / розробка</div><h3 class="mt-6 text-2xl font-black">Створюю навчальні сервіси</h3><p class="mt-3 leading-relaxed text-ink/70">Кожен мій сервіс починався з уроку, де чогось бракувало. РАВЛИК та itnauka.org уже працюють, офісний пакет і розширення для браузера — поки в роботі.</p></article>
       </div>
     </div>
   </section>
 
   <section class="section-band">
-    <div class="shell"><div class="mb-7 flex items-end justify-between gap-5"><div><div class="eyebrow">У роботі</div><h2 class="section-title mt-3">Мої розробки</h2></div><a class="hidden font-bold underline decoration-2 underline-offset-4 sm:block" href="/developments/">Усі розробки →</a></div>
-    <div>{projects.map((project, index) => <ProjectCard project={project} index={index + 1} />)}</div></div>
+    <div class="shell">
+      <div class="mb-7 flex items-end justify-between gap-5"><div><div class="eyebrow">У роботі</div><h2 class="section-title mt-3">Мої розробки</h2></div><a class="hidden font-bold underline decoration-2 underline-offset-4 sm:block" href="/developments/">Усі розробки →</a></div>
+      <div>{projects.map((project, index) => <ProjectCard project={project} index={index + 1} headingLevel="h3" />)}</div>
+    </div>
   </section>
 
   <section class="section-band">
-    <div class="shell grid gap-8 lg:grid-cols-[14rem_1fr]"><div><div class="eyebrow">Нотатки</div><h2 class="mt-3 text-3xl font-black">Кілька моїх текстів</h2></div><div class="grid gap-4">{publications.map((post, index) => <a class:list={['group note grid gap-3 transition hover:-translate-y-1 sm:grid-cols-[6rem_1fr_auto]', index % 2 ? 'rotate-[.4deg]' : 'rotate-[-.4deg]']} href={post.href} target="_blank" rel="noreferrer"><span class="font-mono text-xs font-bold text-coral">{post.label}</span><div><h3 class="text-xl font-black transition group-hover:text-coral">{post.title}</h3><p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink/60">{post.description}</p></div><span class="text-xl font-black" aria-hidden="true">↗</span></a>)}</div></div>
+    <div class="shell grid gap-8 lg:grid-cols-[14rem_1fr]">
+      <div><div class="eyebrow">Нотатки</div><h2 class="mt-3 text-3xl font-black">Кілька моїх текстів</h2></div>
+      <div class="grid gap-4">
+        {featuredPublications.map((post, index) => (
+          <a class:list={['group note grid gap-3 transition hover:-translate-y-1 sm:grid-cols-[6rem_1fr_auto]', index % 2 ? 'rotate-[.4deg]' : 'rotate-[-.4deg]']} href={post.href} target="_blank" rel="noreferrer">
+            <span class="font-mono text-xs font-bold text-coral">{post.topic}</span>
+            <div>
+              <h3 class="text-xl font-black transition group-hover:text-coral">{post.title}</h3>
+              <p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink/70">{post.description}</p>
+            </div>
+            <span class="text-xl font-black" aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
   </section>
 </BaseLayout>

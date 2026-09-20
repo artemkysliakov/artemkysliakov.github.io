@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://artemkysliakov.github.io',
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap({ lastmod: new Date(), changefreq: 'monthly' })],
   vite: {
     plugins: [tailwindcss()]
   },
