@@ -75,6 +75,9 @@
   .folder-card { @apply mt-8 bg-white; }
   .folder-card::before { content: ""; @apply absolute -top-[1.15rem] left-5 h-5 w-28 rounded-t-lg border-2 border-b-0 border-ink bg-inherit; }
   .desktop-shortcut { @apply relative flex min-h-64 flex-col rounded-xl border-2 border-ink p-5 shadow-[6px_6px_0_#17213c] transition duration-200 hover:-translate-y-2 hover:shadow-[10px_10px_0_#17213c]; }
+  .folder-shortcut { @apply mt-6 rounded-tl-sm; }
+  .folder-shortcut::before { content: ""; position: absolute; top: -1.45rem; left: -2px; width: 46%; height: 1.5rem; border: 2px solid currentColor; border-bottom: 0; border-radius: .7rem .7rem 0 0; background-color: inherit; }
+  .folder-shortcut > * { position: relative; z-index: 1; }
   .shortcut-icon { @apply grid size-16 rotate-[-4deg] place-items-center rounded-xl border-2 border-ink bg-white text-3xl shadow-[4px_4px_0_#17213c] transition group-hover:rotate-3; }
   .shortcut-icon svg { width: 1.9rem; height: 1.9rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
   .nav-button { @apply inline-flex min-h-10 items-center justify-center rounded-lg border-2 border-ink px-3.5 py-2 text-sm font-black shadow-[3px_3px_0_#17213c] transition hover:-translate-y-0.5 hover:rotate-[-1deg]; }
@@ -94,6 +97,17 @@
   .window-control:nth-child(1) { @apply bg-coral; }
   .window-control:nth-child(2) { background: #ffca5f; }
   .window-control:nth-child(3) { @apply bg-acid; }
+  .breadcrumbs { @apply font-mono text-xs text-ink/55; }
+  .breadcrumbs a { @apply font-bold text-ink underline decoration-coral decoration-2 underline-offset-4 transition hover:text-coral; }
+  .site-footer { background: #101527; color: #f7f3e8; border-color: #f7f3e8; }
+  .support-panel { @apply rounded-2xl border-2 border-white/75 bg-white/5 p-5 shadow-[7px_7px_0_#050713] sm:p-7; }
+  .footer-kicker { @apply font-mono text-[.68rem] font-bold tracking-[.13em] text-[#d9f45d] uppercase; }
+  .footer-kicker::before { content: "// "; color: #ff8069; }
+  .support-button { @apply inline-flex min-h-11 items-center justify-center rounded-lg border-2 border-white bg-[#d9f45d] px-4 py-2.5 text-sm font-black text-[#17213c] shadow-[4px_4px_0_#050713] transition hover:-translate-y-1; }
+  .qr-link { @apply mx-auto grid w-fit place-items-center rounded-xl border-2 border-white bg-white p-2 shadow-[5px_5px_0_#050713] transition hover:-rotate-2 hover:-translate-y-1; }
+  .qr-link img { width: 9rem; height: auto; }
+  @media (min-width: 640px) { .qr-link img { width: 10rem; } }
+  .footer-link { color: #f7f3e8; @apply font-bold underline decoration-[#d9f45d] decoration-2 underline-offset-4 transition hover:text-[#d9f45d]; }
 }
 
 @keyframes blink { 50% { opacity: 0; } }
@@ -109,6 +123,14 @@
 [data-theme="dark"] .site-header { background-color: rgb(21 26 43 / .95); }
 [data-theme="dark"] .bg-white { background-color: var(--surface-raised); }
 [data-theme="dark"] .section-band { background-color: rgb(21 26 43 / .94); }
+[data-theme="dark"] .note,
+[data-theme="dark"] .prose,
+[data-theme="dark"] .tag,
+[data-theme="dark"] .shortcut-icon { background-color: var(--surface-raised); color: var(--color-ink); }
+[data-theme="dark"] .card:not(.bg-acid):not(.bg-mint):not(.tone-coral):not(.tone-lilac) { background-color: var(--surface-raised); color: var(--color-ink); }
+[data-theme="dark"] a.card:hover { background-color: #2b3450; }
+[data-theme="dark"] .button:not(.button-primary):not(.button-accent) { background-color: var(--surface-raised); color: var(--color-ink); }
+[data-theme="dark"] .button-primary { color: #17213c; }
 [data-theme="dark"] .button,
 [data-theme="dark"] .card,
 [data-theme="dark"] .note,

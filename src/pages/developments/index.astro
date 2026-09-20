@@ -1,12 +1,14 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import developmentsBitmoji from '../../assets/bitmoji-developments.png';
 const items = await getCollection('projects', ({ data }) => !data.draft);
 const preferredOrder = ['ravlyk', 'itnauka'];
 items.sort((a, b) => preferredOrder.indexOf(a.id) - preferredOrder.indexOf(b.id));
 ---
 <BaseLayout title="Розробки" description="Освітні сервіси й активні розробки Артема Кислякова.">
-  <header class="shell py-14 lg:py-24"><div class="eyebrow">Розробки</div><h1 class="page-title mt-5">Інструменти, яких мені бракувало на уроці.</h1><p class="lead mt-7">Тут зібрані мої навчальні сервіси. Частина вже працює відкрито, решту додаватиму, коли ними можна буде користуватися.</p></header>
+  <header class="shell grid gap-8 py-14 lg:grid-cols-[1fr_17rem] lg:items-center lg:py-24"><div><div class="eyebrow">Розробки</div><h1 class="page-title mt-5">Інструменти, яких мені бракувало на уроці.</h1><p class="lead mt-7">Тут зібрані мої навчальні сервіси. Частина вже працює відкрито, решту додаватиму, коли ними можна буде користуватися.</p></div><Image class="mx-auto w-48 -rotate-1 drop-shadow-[6px_8px_0_rgba(23,33,60,.15)] lg:w-68" src={developmentsBitmoji} alt="Бітмоджі пана Артема з ноутбуком та указкою" width={440} loading="eager" /></header>
   <section class="shell border-t border-line pb-12 lg:pb-24">{items.map((project, index) => <ProjectCard project={project} index={index + 1} />)}</section>
 </BaseLayout>
