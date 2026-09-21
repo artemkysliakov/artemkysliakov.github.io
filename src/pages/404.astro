@@ -23,7 +23,7 @@ const links = [
           <div class="eyebrow">Помилка 404</div>
           <h1 class="mt-4 text-[clamp(3rem,7vw,5.5rem)] leading-[.9] font-black tracking-[-0.06em]">Сторінки<br /><span class="scribble">немає.</span></h1>
           <p class="mt-7 max-w-xl text-lg leading-relaxed text-ink/75">Можливо, адресу набрано з помилкою, а можливо, я перейменував сторінку й забув поставити перенаправлення. Друге ймовірніше.</p>
-          <p class="mt-4 max-w-xl leading-relaxed text-ink/70">Поки ви тут — ось як виглядає програма на РАВЛИКу. Змініть числа й натисніть «Запустити».</p>
+          <p class="mt-4 max-w-xl leading-relaxed text-ink/70">Поки ви тут — ось як виглядає програма на РАВЛИКу. Змініть числа чи команди й натисніть «Запустити».</p>
           <div class="mt-7 flex flex-wrap gap-4">
             {links.map((link, index) => <a class:list={['button', index === 0 && 'button-primary']} href={link.href}>{link.label}</a>)}
           </div>
@@ -36,13 +36,14 @@ const links = [
             class="mt-3 h-40 w-full resize-none rounded-lg border-2 border-ink bg-[#17213c] p-4 font-mono text-sm leading-relaxed text-[#d9f45d] shadow-[4px_4px_0_#17213c] focus:outline-none"
             spellcheck="false"
             data-ravlyk-code
-          >повторити 4
+          >повторити 4 (
   вперед 80
   праворуч 90
-кінець</textarea>
+)</textarea>
+          <p class="mt-3 font-mono text-xs leading-relaxed text-ink/60">Команди: вперед, назад, праворуч, ліворуч і повторити N ( … )</p>
           <div class="mt-4 flex items-center gap-3">
             <button class="button button-primary" type="button" data-ravlyk-run>Запустити ▶</button>
-            <span class="font-mono text-xs text-ink/60" data-ravlyk-status></span>
+            <span class="font-mono text-xs text-ink/60" data-ravlyk-status aria-live="polite"></span>
           </div>
           <canvas
             class="mt-4 w-full rounded-lg border-2 border-ink bg-white shadow-[4px_4px_0_#17213c]"
@@ -59,7 +60,7 @@ const links = [
 </BaseLayout>
 
 <script>
-  // Мініатюрний інтерпретатор РАВЛИКа: вперед / праворуч / ліворуч / повторити … кінець.
+  // Мініатюрний інтерпретатор базового синтаксису РАВЛИКа.
   const canvas = document.querySelector<HTMLCanvasElement>('[data-ravlyk-canvas]');
   const input = document.querySelector<HTMLTextAreaElement>('[data-ravlyk-code]');
   const runButton = document.querySelector<HTMLButtonElement>('[data-ravlyk-run]');
@@ -68,43 +69,62 @@ const links = [
   if (canvas && input && runButton && status) {
     const context = canvas.getContext('2d')!;
 
-    type Command = { name: string; value: number };
+    type CommandName = 'вперед' | 'назад' | 'праворуч' | 'ліворуч';
+    type Command = { name: CommandName; value: number };
 
     const parse = (source: string): Command[] => {
-      const flat: Command[] = [];
-      const lines = source.split('\n').map((line) => line.trim()).filter(Boolean);
+      const tokens = source
+        .replace(/\/\/.*$/gm, '')
+        .replace(/([()])/g, ' $1 ')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+      let position = 0;
 
-      const run = (block: string[]) => {
-        let index = 0;
-        while (index < block.length) {
-          const [word, rawValue] = block[index].split(/\s+/);
-          const value = Number(rawValue);
-          if (word === 'повторити') {
-            const nested = block.slice(index + 1);
-            const inner: string[] = [];
-            let depth = 0;
-            for (const line of nested) {
-              const [innerWord] = line.split(/\s+/);
-              if (innerWord === 'повторити') depth += 1;
-              if (innerWord === 'кінець') {
-                if (depth === 0) break;
-                depth -= 1;
-              }
-              inner.push(line);
-            }
-            for (let pass = 0; pass < Math.min(Number.isFinite(value) ? value : 0, 64); pass += 1) run(inner);
-            index += inner.length + 2;
-            continue;
-          }
-          if (['вперед', 'праворуч', 'ліворуч'].includes(word)) {
-            flat.push({ name: word, value: Number.isFinite(value) ? value : 0 });
-          }
-          index += 1;
-        }
+      const readNumber = (command: string) => {
+        const token = tokens[position++];
+        const value = Number(token);
+        if (!token || !Number.isFinite(value)) throw new Error(`Після «${command}» потрібне число`);
+        return value;
       };
 
-      run(lines);
-      return flat;
+      const readBlock = (insideRepeat = false): Command[] => {
+        const commands: Command[] = [];
+
+        while (position < tokens.length) {
+          const word = tokens[position++].toLowerCase();
+
+          if (word === ')') {
+            if (!insideRepeat) throw new Error('Зайва закривна дужка');
+            return commands;
+          }
+
+          if (word === 'повторити') {
+            const count = readNumber(word);
+            if (!Number.isInteger(count) || count < 0) throw new Error('Кількість повторень має бути цілим невід’ємним числом');
+            if (tokens[position++] !== '(') throw new Error('Після кількості повторень потрібна дужка «(»');
+            const nested = readBlock(true);
+            for (let pass = 0; pass < Math.min(count, 64); pass += 1) {
+              commands.push(...nested);
+              if (commands.length > 2000) throw new Error('Забагато команд для цієї маленької версії РАВЛИКа');
+            }
+            continue;
+          }
+
+          if (['вперед', 'назад', 'праворуч', 'ліворуч'].includes(word)) {
+            commands.push({ name: word as CommandName, value: readNumber(word) });
+            continue;
+          }
+
+          if (word === '(') throw new Error('Дужка «(» має стояти після команди «повторити»');
+          throw new Error(`Невідома команда: «${word}»`);
+        }
+
+        if (insideRepeat) throw new Error('Бракує закривної дужки «)»');
+        return commands;
+      };
+
+      return readBlock();
     };
 
     const draw = (commands: Command[]) => {
@@ -122,9 +142,10 @@ const links = [
       context.beginPath();
       context.moveTo(x, y);
       for (const command of commands) {
-        if (command.name === 'вперед') {
-          x += Math.cos((angle * Math.PI) / 180) * command.value;
-          y += Math.sin((angle * Math.PI) / 180) * command.value;
+        if (command.name === 'вперед' || command.name === 'назад') {
+          const distance = command.name === 'назад' ? -command.value : command.value;
+          x += Math.cos((angle * Math.PI) / 180) * distance;
+          y += Math.sin((angle * Math.PI) / 180) * distance;
           context.lineTo(x, y);
         } else if (command.name === 'праворуч') {
           angle += command.value;
@@ -141,11 +162,15 @@ const links = [
     };
 
     const execute = () => {
-      const commands = parse(input.value);
-      draw(commands);
-      status.textContent = commands.length
-        ? `виконано команд: ${commands.length}`
-        : 'команд не знайдено — спробуйте «вперед 80»';
+      try {
+        const commands = parse(input.value);
+        draw(commands);
+        status.textContent = commands.length
+          ? `виконано команд: ${commands.length}`
+          : 'команд не знайдено — спробуйте «вперед 80»';
+      } catch (error) {
+        status.textContent = error instanceof Error ? error.message : 'Не вдалося прочитати програму';
+      }
     };
 
     runButton.addEventListener('click', execute);
